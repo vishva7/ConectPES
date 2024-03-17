@@ -18,12 +18,12 @@ export default function Home() {
         </h2>
       </section>
       <div className="text-center">
-        <p className="text-lg lg:text-2xl font-medium px-6 py-6 lg:p-12">
+        <p className="text-lg lg:text-2xl font-medium px-6 py-6 lg:p-8">
           This is an activity and research group in PES University on networking
           and communication domain. Its main operation and laboratory is based
           in Electronic City campus of the University.
         </p>
-        <p className="lg:text-xl font-medium mb-8">
+        <p className="lg:text-xl font-medium mb-4">
           Check out the center's activities:
         </p>
         <div className="flex justify-around mb-8">
