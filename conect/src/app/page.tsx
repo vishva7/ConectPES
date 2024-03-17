@@ -24,7 +24,7 @@ export default function Home() {
           in Electronic City campus of the University.
         </p>
         <p className="lg:text-xl font-medium mb-4">
-          Check out the center's activities:
+          Check out the center&apos;s activities:
         </p>
         <div className="flex justify-around mb-8">
           <Link href="/projects">
