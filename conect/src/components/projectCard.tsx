@@ -10,7 +10,7 @@ import {
   import next1 from "../../public/Next1.png";
   import Image from "next/image";
 
-export default function projectCard() {
+export default function ProjectCard() {
   return (
     <Card className="max-w-4xl grid grid-cols-1 lg:grid-cols-2 px-2 py-4">
         <Image src={next1} width={400} height={300} alt={"1"} />

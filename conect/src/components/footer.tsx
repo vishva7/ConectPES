@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 function Footer() {
   return (
-    <div className="w-full lg:h-[75px] border-t shadow flex">
+    <div className="w-full lg:h-[75px] shadow flex bg-[#023047]">
       <Image
         src="/PES.png"
         alt="PES"
@@ -10,12 +11,17 @@ function Footer() {
         width={40}
         className="my-2 mx-4"
       />
-      <div className="text-primary self-center w-full">
-        <p className="text-center">Center Of Networking and Evolving Communication Technologies</p>
-        <hr className="h-1 mt-1 w-[50%] mx-auto"></hr>
-        <p className="text-center">6th Floor, Main Block, PESU ECC, Bengaluru - 560100</p>
+      <div className="text-secondary self-center w-full">
+        <p className="text-center text-sm lg:text-base lg:font-semibold">
+          Center Of Networking and Evolving Communication Technologies
+        </p>
+        <p className="text-center text-xs lg:text-base">
+          6th Floor, Main Block, PESU ECC, Bengaluru - 560100
+        </p>
       </div>
-      <p className="text-primary justify-self-end self-center">Contact us at:</p>
+      <Link href="mailto:temp@example.com" className="text-secondary text-sm lg:text-base justify-self-end self-center hover:underline flex-shrink-0 mr-2">
+        Contact Us
+      </Link>
     </div>
   );
 }
