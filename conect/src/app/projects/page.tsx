@@ -103,7 +103,7 @@ export default function EventsPage() {
             key={index}
             className="min-w-full grid grid-cols-1 lg:grid-cols-3 px-2 py-4"
           >
-            <Image src={project.image} width={400} height={300} alt="Image" />
+            <Image src={project.image} width={400} height={300} alt="Image" priority={true}/>
             <div className="lg:col-span-2">
               <CardHeader>
                 <CardTitle className="text-3xl">{project.title}</CardTitle>
