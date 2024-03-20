@@ -19,7 +19,10 @@ function Footer() {
           6th Floor, Main Block, PESU ECC, Bengaluru - 560100
         </p>
       </div>
-      <Link href="mailto:temp@example.com" className="text-secondary text-sm lg:text-base justify-self-end self-center hover:underline flex-shrink-0 mr-2">
+      <Link
+        href="/contact"
+        className="text-secondary text-sm lg:text-base justify-self-end self-center hover:underline flex-shrink-0 mr-2"
+      >
         Contact Us
       </Link>
     </div>

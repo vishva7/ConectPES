@@ -12,8 +12,13 @@ export default function Navbar() {
 
   const menus = [
     { title: "Home", path: "/" },
+    { title: "About", path: "/about" },
+    { title: "People", path: "/people" },
+    { title: "Facilities", path: "/facilities" },
     { title: "Projects", path: "/projects" },
     { title: "Events", path: "/events" },
+    { title: "Publications", path: "/publications" },
+    { title: "Contact", path: "/contact" },
   ];
 
   return (
@@ -39,7 +44,10 @@ export default function Navbar() {
         >
           <ul className="justify-end items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
             {menus.map((item, idx) => (
-              <li key={idx} className="hover:text-blue-500 text-secondary text-lg">
+              <li
+                key={idx}
+                className="hover:text-blue-500 text-secondary text-lg"
+              >
                 <Link href={item.path}>{item.title}</Link>
               </li>
             ))}
