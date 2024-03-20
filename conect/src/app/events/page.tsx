@@ -97,6 +97,7 @@ export default function EventsPage() {
               height={450}
               width={400}
               className="place-self-center"
+              priority={true}
             />
             <div className="col-span-2">
               <CardHeader>
