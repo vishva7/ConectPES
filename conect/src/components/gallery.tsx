@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Link } from "lucide-react";
 
 const CarouselItem = () => {
   return (

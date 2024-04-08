@@ -4,3 +4,10 @@ export interface details {
   image: string;
   desc: string;
 }
+
+export interface publications {
+  title: string;
+  authors: string;
+  summary: string;
+  link: string;
+}
