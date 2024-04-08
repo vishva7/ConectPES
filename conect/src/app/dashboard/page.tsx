@@ -538,7 +538,7 @@ export default function Component() {
 //   );
 // }
 
-function BellIcon(props) {
+function BellIcon(props: any) {
   return (
     <svg
       {...props}
@@ -558,7 +558,7 @@ function BellIcon(props) {
   );
 }
 
-function ChevronLeftIcon(props) {
+function ChevronLeftIcon(props: any) {
   return (
     <svg
       {...props}
@@ -577,7 +577,7 @@ function ChevronLeftIcon(props) {
   );
 }
 
-function CreditCardIcon(props) {
+function CreditCardIcon(props: any) {
   return (
     <svg
       {...props}
@@ -597,7 +597,7 @@ function CreditCardIcon(props) {
   );
 }
 
-function DownloadIcon(props) {
+function DownloadIcon(props: any) {
   return (
     <svg
       {...props}
@@ -618,7 +618,7 @@ function DownloadIcon(props) {
   );
 }
 
-function HomeIcon(props) {
+function HomeIcon(props: any) {
   return (
     <svg
       {...props}
@@ -638,7 +638,7 @@ function HomeIcon(props) {
   );
 }
 
-function MailIcon(props) {
+function MailIcon(props: any) {
   return (
     <svg
       {...props}
@@ -658,7 +658,7 @@ function MailIcon(props) {
   );
 }
 
-function PieChartIcon(props) {
+function PieChartIcon(props: any) {
   return (
     <svg
       {...props}
@@ -678,7 +678,7 @@ function PieChartIcon(props) {
   );
 }
 
-function PlusIcon(props) {
+function PlusIcon(props: any) {
   return (
     <svg
       {...props}
@@ -698,7 +698,7 @@ function PlusIcon(props) {
   );
 }
 
-function SettingsIcon(props) {
+function SettingsIcon(props: any) {
   return (
     <svg
       {...props}
@@ -718,7 +718,7 @@ function SettingsIcon(props) {
   );
 }
 
-function TrendingUpIcon(props) {
+function TrendingUpIcon(props: any) {
   return (
     <svg
       {...props}
@@ -738,7 +738,7 @@ function TrendingUpIcon(props) {
   );
 }
 
-function UserIcon(props) {
+function UserIcon(props: any) {
   return (
     <svg
       {...props}
