@@ -28,7 +28,7 @@ export default function About() {
             <p className="max-w-prose text-gray-500 md:text-xl/relaxed dark:text-gray-400">
               CONECT is dedicated to pioneering research in cutting-edge
               scientific fields, pushing the boundaries of human knowledge, and
-              developing innovative solutions to the world's most pressing
+              developing innovative solutions to the world&apos;s most pressing
               challenges.
             </p>
           </div>

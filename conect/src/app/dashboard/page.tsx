@@ -387,7 +387,7 @@ export default function Component() {
                   Your Mutual Fund Investments
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  Here's a summary of your mutual fund investments.
+                  Here&apos;s a summary of your mutual fund investments.
                 </CardDescription>
               </CardContent>
             </Card>
