@@ -46,7 +46,7 @@ export default function SignIn() {
           className: "border-2 border-green-600",
         });
         localStorage.setItem("user", "admin");
-        router.push("/dashboard");
+        router.push("/admin/dashboard");
       } else {
         toast({
           title: "Uh-oh!",
