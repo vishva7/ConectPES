@@ -24,7 +24,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:10000/projects/all")
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/all`)
       .then((response) => {
         let newProjects = response.data.map((project: Project) => {
           const matchResult = project.image.match(/file\/d\/(.*?)\//);
