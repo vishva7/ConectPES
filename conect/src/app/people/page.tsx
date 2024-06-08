@@ -1,6 +1,7 @@
 import React from "react";
 import MemberCard from "@/components/memberCard";
 import { details } from "@/lib/types";
+import Navbar from "@/components/navbar";
 
 const someData: details[] = [
   {
@@ -19,13 +20,16 @@ const someData: details[] = [
 
 export default function About() {
   return (
-    <div className="container">
-      <h1>Our Team</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {someData.map((member, index) => (
-          <MemberCard key={index} {...member} />
-        ))}
+    <>
+      <Navbar />
+      <div className="container">
+        <h1>Our Team</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {someData.map((member, index) => (
+            <MemberCard key={index} {...member} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

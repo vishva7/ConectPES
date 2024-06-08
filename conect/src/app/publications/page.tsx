@@ -1,4 +1,5 @@
 import PublicationCard from "@/components/publicationCard";
+import Navbar from "@/components/navbar";
 
 const publications = [
   {
@@ -27,27 +28,26 @@ const publications = [
 export default function Publications() {
   return (
     <div>
-      <div>
-        <div className="px-4 md:px-10">
-          <div className="py-6 md:py-8">
-            <div className="space-y-2 md:space-y-4">
-              <h1 className="text-3xl font-bold">Research Publications</h1>
-              <p className="text-lg text-gray-500">
-                Explore our latest research findings and publications.
-              </p>
-            </div>
+      <Navbar />
+      <div className="px-4 md:px-10">
+        <div className="py-6 md:py-8">
+          <div className="space-y-2 md:space-y-4">
+            <h1 className="text-3xl font-bold">Research Publications</h1>
+            <p className="text-lg text-gray-500">
+              Explore our latest research findings and publications.
+            </p>
           </div>
-          <div className="grid gap-6 md:gap-8 lg:gap-10">
-            {publications.map((publication, index) => (
-              <PublicationCard
-                key={index}
-                title={publication.title}
-                authors={publication.authors}
-                summary={publication.summary}
-                link={publication.link}
-              />
-            ))}
-          </div>
+        </div>
+        <div className="grid gap-6 md:gap-8 lg:gap-10">
+          {publications.map((publication, index) => (
+            <PublicationCard
+              key={index}
+              title={publication.title}
+              authors={publication.authors}
+              summary={publication.summary}
+              link={publication.link}
+            />
+          ))}
         </div>
       </div>
     </div>
