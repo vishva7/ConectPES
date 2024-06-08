@@ -44,7 +44,7 @@ interface People {
 const tabsData = [
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
-  { id: "people", icon: <Users />, label: "People" },
+  { id: "members", icon: <Users />, label: "Members" },
   { id: "facilities", icon: <Cable />, label: "Facilities" },
   { id: "publications", icon: <Library />, label: "Publications" },
 ];
