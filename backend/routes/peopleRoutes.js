@@ -31,7 +31,7 @@ router.post("/create", async (req, res) => {
   });
   try {
     let savedPerson = await person.save();
-    res.status(200).send(savedPerson);
+    res.status(201).send(savedPerson);
   } catch (error) {
     console.log(error);
     return res.status(400).send("Could not create person");

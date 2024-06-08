@@ -6,7 +6,7 @@ let eventSchema = new Schema({
   description: { type: String, required: true },
   date: { type: String, required: true },
   time: { type: String, required: true },
-  registrationLink: { type: String, required: true },
+  registrationLink: { type: String },
   image: { type: String, required: true },
   upcoming: { type: Boolean, required: true },
 });

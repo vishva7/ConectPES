@@ -30,11 +30,12 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 
 interface events {
+  _id: string;
   title: string;
   description: string;
   date: string;
@@ -52,43 +53,47 @@ const tabsData = [
   { id: "publications", icon: <Library />, label: "Publications" },
 ];
 
-// const blogPosts = [
-//   {
-//     title: "Blog Post 1",
-//     description: "This is the first blog post.",
-//     datePublished: "2023-04-01",
-//   },
-//   {
-//     title: "Blog Post 2",
-//     description: "This is the second blog post.",
-//     datePublished: "2023-04-05",
-//   },
-//   {
-//     title: "Blog Post 3",
-//     description: "This is the third blog post.",
-//     datePublished: "2023-04-10",
-//   },
-//   {
-//     title: "Blog Post 4",
-//     description: "This is the fourth blog post.",
-//     datePublished: "2023-04-15",
-//   },
-// ];
-
 export default function EventDashboard() {
   const [activeTab, setActiveTab] = useState("events");
   const [events, setEvents] = useState<events[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const router = useRouter();
+
+  const handleDelete = async (eventId: string) => {
+    try {
+      // Replace 'YOUR_BACKEND_URL' with your actual backend URL
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/delete/${eventId}`
+      );
+      if (response.status === 200) {
+        setEvents(events.filter((event) => event._id !== eventId));
+      } else {
+        console.error("Failed to delete event");
+      }
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBlogPosts = async () => {
+    const fetchEvents = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/all`
         );
         const data = await response.data;
-        setEvents(data);
+        let newEvents = response.data.map((event: events) => {
+          const matchResult = event.image.match(/file\/d\/(.*?)\//);
+          if (matchResult) {
+            const fileId = matchResult[1];
+            const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            return { ...event, image: newImageUrl };
+          } else {
+            return event;
+          }
+        });
+        setEvents(newEvents);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -97,7 +102,7 @@ export default function EventDashboard() {
       }
     };
 
-    fetchBlogPosts();
+    fetchEvents();
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
@@ -143,7 +148,10 @@ export default function EventDashboard() {
                   <Button
                     variant={activeTab === tab.id ? "outline" : "ghost"}
                     className="w-full justify-start gap-2 rounded-md px-3 py-2 text-base font-medium"
-                    onClick={() => setActiveTab(tab.id)}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      router.push(`/admin/${tab.id}`)
+                    }}
                   >
                     {tab.icon}
                     {tab.label}
@@ -158,7 +166,12 @@ export default function EventDashboard() {
             <h1 className="text-xl font-semibold">
               {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
             </h1>
-            <Button size="sm">
+            <Button
+              size="sm"
+              onClick={() => {
+                router.push("/admin/events/create");
+              }}
+            >
               <PlusSquare className="h-4 w-4 mr-2" />
               Add New
             </Button>
@@ -217,11 +230,21 @@ export default function EventDashboard() {
                           )}
                         </span>
                         <div className="flex gap-2">
-                          <Button variant="ghost" size="icon">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => {
+                              router.push(`/admin/events/update/${event._id}`);
+                            }}
+                          >
                             <Pencil className="h-6 w-6" />
                             <span className="sr-only">Edit</span>
                           </Button>
-                          <Button variant="destructive" size="icon">
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            onClick={() => handleDelete(event._id)}
+                          >
                             <Trash2 className="h-6 w-6" />
                             <span className="sr-only">Delete</span>
                           </Button>
@@ -232,9 +255,6 @@ export default function EventDashboard() {
                 ))}
               </div>
             </div>
-            {/* <div className="flex justify-center">
-                <Pagination currentPage={1} totalPages />
-              </div> */}
           </div>
         </main>
       </div>

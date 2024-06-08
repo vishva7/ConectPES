@@ -1,5 +1,5 @@
-"use client"
-import { useEffect,useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import * as React from "react";
 
@@ -26,85 +26,27 @@ interface Events {
   upcoming: Boolean;
 }
 
-
 export default function EventsPage() {
-  // let events = [
-  //   {
-  //     title: "Workshop on VM Communication",
-  //     description:
-  //       "To tryout with multiple system we do not need physical multiple systems. Using multiple virtual machines with communication setup, we can create our near to real network on a single machine.",
-  //     date: "2024-02-07",
-  //     time: "2:15pm",
-  //     registrationLink: "https://forms.gle/rMMQtmJmWE5Q5D4a6",
-  //     image:
-  //       "https://drive.google.com/file/d/102zHHUi8inDtSUditF7YVqoJCa50411d/view?usp=drive_link",
-  //     upcoming: true,
-  //   },
-  //   {
-  //     title: "Workshop on MININET",
-  //     description:
-  //       "Mininet is a popular simulation tool for Software Defined network which take very less resources even for big network. Networking Experimentation and Innovation can be made using the tool.",
-  //     date: "2024-02-21",
-  //     time: "2:15pm",
-  //     registrationLink: "https://forms.gle/1HFAXxpF2jA8A6iH9",
-  //     image:
-  //       "https://drive.google.com/file/d/1xU-4vSw8sm5lZWeKEXs0rZjaHySVd24W/view?usp=drive_link",
-  //     upcoming: true,
-  //   },
-  //   {
-  //     title: "Networking Hackathon",
-  //     description:
-  //       "It was organized for ECE 5th Semester students based on GNS3 tool. It had 2 rounds. First round was to select the top 30 candidates. Then the second round was for real competition",
-  //     date: "2023-11-20",
-  //     time: "1:45pm - 3:30pm",
-  //     registrationLink: "",
-  //     image:
-  //       "https://drive.google.com/file/d/1q9lrd_l6zryDLS4EJPcwfpfPEd0VpCF6/view?usp=drive_link",
-  //     upcoming: false,
-  //   },
-  //   {
-  //     title: "Workshop on NS3",
-  //     description:
-  //       "To tryout with multiple system we do not need physical multiple systems. Using multiple virtual machines with communication setup, we can create our near to real network on a single machine.",
-  //     date: "2023-11-15",
-  //     time: "2:15pm",
-  //     registrationLink: "",
-  //     image:
-  //       "https://drive.google.com/file/d/1KTzEYObaLY1I4T3qYvj123VTK3KeMeuA/view?usp=drive_link",
-  //     upcoming: false,
-  //   },
-  //   {
-  //     title: "Guest Talk from ISRO",
-  //     description:
-  //       "Guest talk on “Chandrayaan 3 Mission - from a communication perspective”. Guest Lecture Mr A Rajendra Kumar is a scientist in ISRO. With a Masters degree in Satellite Technology and Applications from IISc and by working in ISRO for over 23 years, he has in-depth knowledge in the development life cycle of electronics hardware for satellite systems of LEO, GEO and interplanetary missions.",
-  //     date: "2023-11-03",
-  //     time: "12:00pm",
-  //     registrationLink: "",
-  //     image:
-  //       "https://drive.google.com/file/d/1ghhyQtxKIfhsBmo9RPRZah2IxgMOfU3C/view?usp=drive_link",
-  //     upcoming: false,
-  //   },
-  // ];
-
   const [events, setEvents] = useState<Events[]>([]);
-  useEffect(()=>{
-    axios.get("http://localhost:10000/events/all")
-    .then(response => {
-      setEvents(response.data);})
-    .catch(err => console.log(err))
-  },[])
 
-
-  events = events.map((event) => {
-    const matchResult = event.image.match(/file\/d\/(.*?)\//);
-    if (matchResult) {
-      const fileId = matchResult[1];
-      const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-      return { ...event, image: newImageUrl };
-    } else {
-      return event;
-    }
-  });
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/events/all`)
+      .then((response) => {
+        let newEvents = response.data.map((event: Events) => {
+          const matchResult = event.image.match(/file\/d\/(.*?)\//);
+          if (matchResult) {
+            const fileId = matchResult[1];
+            const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            return { ...event, image: newImageUrl };
+          } else {
+            return event;
+          }
+        });
+        setEvents(newEvents);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
@@ -141,18 +83,22 @@ export default function EventsPage() {
                 {event.upcoming ? (
                   <p className="mb-1 text-green-600 font-semibold">Upcoming</p>
                 ) : (
-                  <></>
+                  <p className="mb-1 text-red-600 font-semibold">Conducted</p>
                 )}
               </CardContent>
-              <CardFooter className="flex justify-between">
-                {event.registrationLink ? (
-                  <Link href={event.registrationLink}>
-                    <Button>Register</Button>
-                  </Link>
-                ) : (
-                  <Button variant="destructive">Conducted</Button>
-                )}
-              </CardFooter>
+              {event.upcoming ? (
+                <CardFooter className="flex justify-between">
+                  {event.registrationLink ? (
+                    <Link href={event.registrationLink}>
+                      <Button>Register</Button>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
+                </CardFooter>
+              ) : (
+                <></>
+              )}
             </div>
           </Card>
         ))}

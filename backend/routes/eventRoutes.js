@@ -16,6 +16,7 @@ router.get("/:id", async (req, res) => {
   try {
     console.log(req.params.id);
     let event = await Event.findById(req.params.id);
+    console.log(event)
     res.status(200).send(event);
   } catch (error) {
     return res.status(500).send(error);
@@ -30,11 +31,11 @@ router.post("/create", async (req, res) => {
     time: req.body.time,
     registrationLink: req.body.registrationLink,
     image: req.body.image,
-    upcoming: req.body.upcoming,
+    upcoming: Boolean(req.body.upcoming),
   });
   try {
     let savedEvent = await event.save();
-    res.status(200).send(savedEvent);
+    res.status(201).send(savedEvent);
   } catch (error) {
     console.log(error);
     return res.status(400).send("Could not create event");
@@ -57,7 +58,8 @@ router.delete("/delete/:id", async (req, res) => {
 router.put("/update/:id", async (req, res) => {
   try {
     console.log(req.params.id);
-    const updatedEvent = await Event.findByIdAndUpdate(req.params.id);
+    console.log(req.body)
+    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body);
     if (!updatedEvent) {
       return res.status(404).json({ error: "Event not found" });
     }

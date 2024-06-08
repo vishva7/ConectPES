@@ -31,7 +31,7 @@ router.post("/create", async (req, res) => {
   });
   try {
     let savedProject = await project.save();
-    res.status(200).send(savedProject);
+    res.status(201).send(savedProject);
   } catch (error) {
     console.log(error);
     return res.status(400).send("Could not create project");

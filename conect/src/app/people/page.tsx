@@ -1,41 +1,28 @@
-"use client"
-import { useEffect,useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
 import MemberCard from "@/components/memberCard";
 import { details } from "@/lib/types";
 import Navbar from "@/components/navbar";
 
-
-// const someData: details[] = [
-//   {
-//     name: "Bivas Bhattacharya",
-//     role: "Assistant Professor",
-//     image: "",
-//     desc: "Course Anchorship, Lab in-charge, Project Guide, Class teacher, Student mentor, Club advisor",
-//   },
-//   {
-//     name: "Alejandro Gomez",
-//     role: "Assistant Professor",
-//     image: "",
-//     desc: "A passionate advocate for interdisciplinary research.",
-//   },
-// ];
-interface people {
+interface People {
   name: string;
   role: string;
   image: string;
   desc: string;
 }
-export default function About() {
 
-  const [about, setAbout] = useState<people[]>([]);
-  useEffect(()=>{
-    axios.get("http://localhost:10000/people/all")
-    .then(response => {
-      setAbout(response.data);})
-    .catch(err => console.log(err))
-  },[])
+export default function About() {
+  const [about, setAbout] = useState<People[]>([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/people/all`)
+      .then((response) => {
+        setAbout(response.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>

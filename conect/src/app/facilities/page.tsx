@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar";
 
-export default function Component() {
+export default function Facilities() {
   return (
     <>
       <Navbar />

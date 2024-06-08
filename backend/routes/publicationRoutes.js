@@ -31,7 +31,7 @@ router.post("/create", async (req, res) => {
   });
   try {
     let savedPublication = await publication.save();
-    res.status(200).send(savedPublication);
+    res.status(201).send(savedPublication);
   } catch (error) {
     console.log(error);
     return res.status(400).send("Could not create publication");
