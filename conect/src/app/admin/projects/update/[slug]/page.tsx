@@ -19,18 +19,16 @@ import { useRouter } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import axios from "axios";
 import Navbar from "@/components/navbar";
+import { useEffect } from "react";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
   description: z.string().min(1, { message: "This field has to be filled." }),
-  date: z.string().min(1, { message: "This field has to be filled." }),
-  time: z.string().min(1, { message: "This field has to be filled." }),
-  registrationLink: z.string(),
   image: z.string().min(1, { message: "This field has to be filled." }),
-  upcoming: z.string().min(1, { message: "This field has to be filled." }),
+  available: z.string().min(1, { message: "This field has to be filled." }),
 });
 
-export default function CreateEvent() {
+export default function UpdateEvent({ params }: { params: { slug: string } }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -38,28 +36,49 @@ export default function CreateEvent() {
     defaultValues: {
       title: "",
       description: "",
-      date: "",
-      time: "",
-      registrationLink: "",
       image: "",
-      upcoming: "",
+      available: "",
     },
   });
+
+  useEffect(() => {
+    console.log(params.slug);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/${params.slug}`
+        );
+        if (response.status === 200) {
+          const projectData = response.data;
+          form.reset({
+            title: projectData.title || "",
+            description: projectData.description || "",
+            image: projectData.image || "",
+            available: String(projectData.available),
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load project:", error);
+      }
+    };
+
+    fetchData();
+  }, [params.slug, form]);
 
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/create`,
+      let response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/update/${params.slug}`,
         formdata
       );
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log(response.data);
         toast({
-          title: "Created successfully",
+          title: "Updated successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/events");
+        router.push("/admin/projects");
       }
     } catch (error) {
       console.log(error);
@@ -80,9 +99,9 @@ export default function CreateEvent() {
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Add an Event</div>
+            <div className="text-3xl font-bold">Update a Project</div>
             <p className="text-gray-500 dark:text-gray-400">
-              Enter Event Details
+              Enter Project Details
             </p>
             <FormField
               control={form.control}
@@ -113,47 +132,6 @@ export default function CreateEvent() {
                 </FormItem>
               )}
             />
-            <div className="grid grid-cols-2">
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem className="space-y-2 text-left mr-2">
-                    <FormLabel>Date</FormLabel>
-                    <FormControl>
-                      <Input type="text" placeholder="01/01/24" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="time"
-                render={({ field }) => (
-                  <FormItem className="space-y-2 text-left ml-2">
-                    <FormLabel>Time</FormLabel>
-                    <FormControl>
-                      <Input type="text" placeholder="2:30PM" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <FormField
-              control={form.control}
-              name="registrationLink"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Registration Link</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="image"
@@ -169,10 +147,10 @@ export default function CreateEvent() {
             />
             <FormField
               control={form.control}
-              name="upcoming"
+              name="available"
               render={({ field }) => (
                 <FormItem className="space-y-2 text-left">
-                  <FormLabel>Upcoming</FormLabel>
+                  <FormLabel>Available</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -189,7 +167,9 @@ export default function CreateEvent() {
                         <FormControl>
                           <RadioGroupItem value="false" />
                         </FormControl>
-                        <FormLabel className="font-normal">False</FormLabel>
+                        <FormLabel className="font-normal">
+                          Not Available
+                        </FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -198,7 +178,7 @@ export default function CreateEvent() {
               )}
             />
             <Button className="w-full lg:w-1/3" type="submit">
-              Add Event
+              Update Project
             </Button>
           </div>
         </form>

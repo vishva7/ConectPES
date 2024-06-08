@@ -19,7 +19,6 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/Card";
-import { Pagination } from "@/components/ui/pagination";
 import {
   Users,
   FolderOpenDotIcon,
@@ -62,7 +61,6 @@ export default function EventDashboard() {
 
   const handleDelete = async (eventId: string) => {
     try {
-      // Replace 'YOUR_BACKEND_URL' with your actual backend URL
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/delete/${eventId}`
       );
@@ -82,7 +80,6 @@ export default function EventDashboard() {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/all`
         );
-        const data = await response.data;
         let newEvents = response.data.map((event: events) => {
           const matchResult = event.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {

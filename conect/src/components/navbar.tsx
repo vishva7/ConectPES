@@ -18,7 +18,7 @@ export default function Navbar() {
     { title: "Projects", path: "/projects" },
     { title: "Events", path: "/events" },
     { title: "Publications", path: "/publications" },
-    { title: "Contact", path: "/contact" },
+    { title: "Contact", path: "https://staff.pes.edu/nm1432/" },
   ];
 
   return (
@@ -51,9 +51,6 @@ export default function Navbar() {
                 <Link href={item.path}>{item.title}</Link>
               </li>
             ))}
-            {/* <li>
-              <ModeToggle />
-            </li> */}
           </ul>
         </div>
       </div>
