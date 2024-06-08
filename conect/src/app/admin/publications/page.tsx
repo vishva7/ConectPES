@@ -156,7 +156,7 @@ export default function PeopleDashboard() {
             <Button
               size="sm"
               onClick={() => {
-                router.push("/admin/events/create");
+                router.push("/admin/publications/create");
               }}
             >
               <PlusSquare className="h-4 w-4 mr-2" />
@@ -192,7 +192,7 @@ export default function PeopleDashboard() {
                           size="icon"
                           onClick={() => {
                             router.push(
-                              `/admin/events/update/${publication._id}`
+                              `/admin/publications/update/${publication._id}`
                             );
                           }}
                         >

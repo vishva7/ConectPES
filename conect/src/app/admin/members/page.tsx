@@ -163,7 +163,7 @@ export default function PeopleDashboard() {
             <Button
               size="sm"
               onClick={() => {
-                router.push("/admin/events/create");
+                router.push("/admin/members/create");
               }}
             >
               <PlusSquare className="h-4 w-4 mr-2" />
@@ -198,7 +198,7 @@ export default function PeopleDashboard() {
                           variant="ghost"
                           size="icon"
                           onClick={() => {
-                            router.push(`/admin/events/update/${person._id}`);
+                            router.push(`/admin/members/update/${person._id}`);
                           }}
                         >
                           <Pencil className="h-6 w-6" />
