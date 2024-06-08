@@ -205,7 +205,7 @@ export default function EventDashboard() {
                             variant="ghost"
                             size="icon"
                             onClick={() => {
-                              router.push(`/admin/events/update/${project._id}`);
+                              router.push(`/admin/projects/update/${project._id}`);
                             }}
                           >
                             <Pencil className="h-6 w-6" />
