@@ -9,6 +9,7 @@ const projectRoutes = require("./routes/projectRoutes");
 const facilitiesRoutes = require("./routes/facilitiesRoutes");
 const publicationRoutes = require("./routes/publicationRoutes");
 const peopleRoutes = require("./routes/peopleRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 
 const app = express();
 const PORT = 10000;
@@ -33,5 +34,6 @@ app.use("/projects", projectRoutes);
 app.use("/events", eventRoutes);
 app.use("/people", peopleRoutes);
 app.use("/publications", publicationRoutes);
-// app.use("/facilites", facilitiesRoutes);
+app.use("/facilities", facilitiesRoutes);
+app.use("/home", homeRoutes);
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

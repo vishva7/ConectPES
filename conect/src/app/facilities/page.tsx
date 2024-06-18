@@ -13,7 +13,7 @@ export default function Facilities() {
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/facilities/all`)
       .then((response) => {
-        const data = response.data();
+        const data = response.data;
         setfacilitiesData(data);
       })
       .catch((err) => {
@@ -56,7 +56,7 @@ export default function Facilities() {
                   scientific discovery and technological breakthroughs.
                 </p>
               </div>
-              <div className="grid gap-6 md:grid-cols-2 xl:gap-8">
+              <div className="grid gap-6 md:grid-cols-3 xl:gap-8">
                 {facilitiesData.map((item: facilities, index) => (
                   <FacilityCard key={index} {...item} />
                 ))}

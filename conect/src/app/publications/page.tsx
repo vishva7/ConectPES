@@ -34,7 +34,7 @@ export default function Publications() {
             </p>
           </div>
         </div>
-        <div className="grid gap-6 md:gap-8 lg:gap-10">
+        <div className="grid gap-6 md:gap-8 lg:gap-10 py-4">
           {publications.map((publication, index) => (
             <PublicationCard
               key={index}

@@ -17,7 +17,7 @@ const Home = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home/all`)
       .then((response) => {
-        const data = response.data();
+        const data = response.data;
         setCarouselItemsData(data);
       })
       .catch((err) => {
