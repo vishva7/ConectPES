@@ -18,7 +18,7 @@ export default function Navbar() {
     { title: "Projects", path: "/projects" },
     { title: "Events", path: "/events" },
     { title: "Publications", path: "/publications" },
-    { title: "Contact", path: "https://staff.pes.edu/nm1432/" },
+    { title: "Contact", path: "/contact" },
   ];
 
   return (

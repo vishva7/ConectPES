@@ -17,7 +17,16 @@ const Home = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home/all`)
       .then((response) => {
-        const data = response.data;
+        let data = response.data.map((item: CarouselData) => {
+          const matchResult = item.image.match(/file\/d\/(.*?)\//);
+          if (matchResult) {
+            const fileId = matchResult[1];
+            const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            return { ...item, image: newImageUrl };
+          } else {
+            return item;
+          }
+        });
         setCarouselItemsData(data);
       })
       .catch((err) => {
