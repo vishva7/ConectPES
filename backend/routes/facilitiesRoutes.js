@@ -1,43 +1,64 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const User = require("../models/userSchema");
-const bcrypt = require("bcryptjs");
+const Facilities = require("../models/facilitiesSchema");
 
-router.post("/signup", async (req, res) => {
-  req.body.password = await bcrypt.hash(req.body.password, 10);
-  let user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  });
+router.get("/all", async (req, res) => {
   try {
-    let savedUser = await user.save();
-    const token = jwt.sign({ userId: savedUser._id }, "my-secret-key");
-    res
-      .status(200)
-      .send({ token, userId: savedUser._id, email: savedUser.email, name: savedUser.name });
+    let facilities = await Facilities.find({});
+    console.log(facilities);
+    res.status(200).send(facilities);
   } catch (error) {
-    return res.status(401).send("Invalid email or password");
+    return res.status(500).send(error);
   }
 });
 
-router.post("/login", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    console.log(req)
-    console.log("Logging in")
-    let getUser = await User.findOne({ email: req.body.email });
-    console.log(getUser);
-    if (!getUser) {
-      return res.status(401).send("Invalid email or password");
+    console.log(req.params.id);
+    let facility = await Facilities.findById(req.params.id);
+    res.status(200).send(facility);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
+router.post("/create", async (req, res) => {
+  let facility = new Facilities({
+    title: req.body.title,
+    description: req.body.description,
+    image: req.body.image,
+    specs: req.body.specs,
+  });
+  try {
+    let savedFacility = await facility.save();
+    res.status(201).send(savedFacility);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send("Could not create facility");
+  }
+});
+
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const deletedFacility = await Facilities.findByIdAndDelete(req.params.id);
+    if (!deletedFacility) {
+      return res.status(404).json({ error: "Facility not found" });
     }
-    const result = await bcrypt.compare(req.body.password, getUser.password);
-    if (result) {
-      const token = jwt.sign({ userId: getUser._id }, "my-secret-key");
-      res.json({ token, userId: getUser._id, email: getUser.email, name: getUser.name });
-    } else {
-      res.status(400).json({ error: "Invalid email or password" });
+    res.status(200).json(deletedFacility);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+router.put("/update/:id", async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const updatedFacility = await Facilities.findByIdAndUpdate(req.params.id, req.body);
+    if (!updatedFacility) {
+      return res.status(404).json({ error: "Facility not found" });
     }
+    res.status(200).json(updatedFacility);
   } catch (error) {
     res.status(400).json({ error });
   }

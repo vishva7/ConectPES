@@ -54,7 +54,7 @@ router.delete("/delete/:id", async (req, res) => {
 router.put("/update/:id", async (req, res) => {
   try {
     console.log(req.params.id);
-    const updatedProject = await Project.findByIdAndUpdate(req.params.id);
+    const updatedProject = await Project.findByIdAndUpdate(req.params.id, req.body);
     if (!updatedProject) {
       return res.status(404).json({ error: "Project not found" });
     }

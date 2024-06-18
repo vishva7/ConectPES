@@ -18,6 +18,7 @@ const Home = () => {
           showStatus={false}
           emulateTouch
           showThumbs={false}
+          interval={3500}
         >
           <CarouselItem />
           <CarouselItem />
