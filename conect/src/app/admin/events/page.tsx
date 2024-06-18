@@ -28,6 +28,7 @@ import {
   PlusSquare,
   Pencil,
   Trash2,
+  Home,
 } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
@@ -45,6 +46,7 @@ interface events {
 }
 
 const tabsData = [
+  { id: "home", icon: <Home />, label: "Home" },
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
   { id: "members", icon: <Users />, label: "Members" },
@@ -147,7 +149,7 @@ export default function EventDashboard() {
                     className="w-full justify-start gap-2 rounded-md px-3 py-2 text-base font-medium"
                     onClick={() => {
                       setActiveTab(tab.id);
-                      router.push(`/admin/${tab.id}`)
+                      router.push(`/admin/${tab.id}`);
                     }}
                   >
                     {tab.icon}

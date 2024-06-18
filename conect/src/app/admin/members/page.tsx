@@ -28,6 +28,7 @@ import {
   PlusSquare,
   Pencil,
   Trash2,
+  Home
 } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
@@ -42,6 +43,7 @@ interface People {
 }
 
 const tabsData = [
+  { id: "home", icon: <Home />, label: "Home" },
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
   { id: "members", icon: <Users />, label: "Members" },

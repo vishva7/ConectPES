@@ -13,7 +13,14 @@ export interface publications {
 }
 
 export interface CarouselData {
-  title: String;
-  description: String;
-  image: String;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface facilities {
+  title: string;
+  description: string;
+  image: string;
+  specs: string;
 }
