@@ -11,3 +11,9 @@ export interface publications {
   summary: string;
   link: string;
 }
+
+export interface CarouselData {
+  title: String;
+  description: String;
+  image: String;
+}
