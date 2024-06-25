@@ -44,8 +44,9 @@ export default function UpdateContact() {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/all`
         );
+        console.log(response)
         if (response.status === 200) {
-          const contactData = response.data;
+          const contactData = response.data[0];
           form.reset({
             email: contactData.email || "",
             address: contactData.address || "",
@@ -73,7 +74,7 @@ export default function UpdateContact() {
           title: "Updated successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/contact");
+        router.push("/admin/dashboard");
       }
     } catch (error) {
       console.log(error);

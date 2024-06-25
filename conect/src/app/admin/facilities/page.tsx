@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
-import FacilityCard from "@/components/facilityCard";
+import Image from "next/image";
 
 interface facilities {
   _id: string;
@@ -51,7 +51,7 @@ const tabsData = [
   { id: "publications", icon: <Library />, label: "Publications" },
 ];
 
-export default function EventDashboard() {
+export default function FacilityDashboard() {
   const [activeTab, setActiveTab] = useState("facilities");
   const [facilities, setFacilities] = useState<facilities[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -167,7 +167,7 @@ export default function EventDashboard() {
             <Button
               size="sm"
               onClick={() => {
-                router.push("/admin/events/create");
+                router.push("/admin/facilities/create");
               }}
             >
               <PlusSquare className="h-4 w-4 mr-2" />
@@ -176,9 +176,63 @@ export default function EventDashboard() {
           </header>
           <div className="flex-1 overflow-auto p-6">
             <div className="grid gap-6">
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {facilities.map((facility, index) => (
-                  <FacilityCard key={index} {...facility} />
+                  <Card className="w-full max-w-md">
+                    <Image
+                      src={facility.image}
+                      width={400}
+                      height={300}
+                      alt={facility.title}
+                      priority={true}
+                    />
+                    <CardContent className="p-6 space-y-4">
+                      <div className="space-y-2">
+                        <CardTitle>{facility.title}</CardTitle>
+                        <CardDescription>
+                          {facility.description}
+                        </CardDescription>
+                      </div>
+                      <div className="grid gap-4">
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            Facility Specifications
+                          </h3>
+                          <div className="text-sm">{facility.specs}</div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          className="justify-self-start"
+                        >
+                          Learn More
+                        </Button>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            router.push(
+                              `/admin/facilities/update/${facility._id}`
+                            );
+                          }}
+                        >
+                          <Pencil className="h-6 w-6" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          onClick={() => handleDelete(facility._id)}
+                        >
+                          <Trash2 className="h-6 w-6" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
                 ))}
               </div>
             </div>

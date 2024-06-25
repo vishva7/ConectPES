@@ -218,16 +218,16 @@ export default function EventDashboard() {
                         )}
                       </CardContent>
                       <CardFooter className="flex justify-between">
-                        <span className="font-semibold">
-                          Registration Link:{" "}
-                          {event.registrationLink ? (
+                        {event.upcoming ? (
+                          <span className="font-semibold">
+                            Registration Link:{" "}
                             <span className="font-medium">
                               {event.registrationLink}
                             </span>
-                          ) : (
-                            ""
-                          )}
-                        </span>
+                          </span>
+                        ) : (
+                          ""
+                        )}
                         <div className="flex gap-2">
                           <Button
                             variant="ghost"

@@ -13,7 +13,16 @@ export default function Facilities() {
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/facilities/all`)
       .then((response) => {
-        const data = response.data;
+        let data = response.data.map((facility: facilities) => {
+          const matchResult = facility.image.match(/file\/d\/(.*?)\//);
+          if (matchResult) {
+            const fileId = matchResult[1];
+            const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            return { ...facility, image: newImageUrl };
+          } else {
+            return facility;
+          }
+        });
         setfacilitiesData(data);
       })
       .catch((err) => {

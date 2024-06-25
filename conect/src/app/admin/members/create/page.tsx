@@ -23,7 +23,7 @@ interface People {
   name: string;
   role: string;
   image: string;
-  desc: string;
+  description: string;
 }
 
 const FormSchema = z.object({
@@ -33,7 +33,7 @@ const FormSchema = z.object({
   description: z.string().min(1, { message: "This field has to be filled." }),
 });
 
-export default function CreateEvent() {
+export default function CreateMember() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({

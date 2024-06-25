@@ -6,15 +6,12 @@ import {
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/button";
 import { facilities } from "@/lib/types";
+import Image from "next/image";
 
 const FacilityCard = ({ title, description, image, specs }: facilities) => {
   return (
     <Card className="w-full max-w-md">
-      <img
-        src={image as string}
-        alt="Research Facility"
-        className="rounded-t-lg object-cover w-full aspect-[4/3]"
-      />
+      <Image src={image} width={400} height={300} alt={title} priority={true} />
       <CardContent className="p-6 space-y-4">
         <div className="space-y-2">
           <CardTitle>{title}</CardTitle>

@@ -28,7 +28,7 @@ const FormSchema = z.object({
   description: z.string().min(1, { message: "This field has to be filled." }),
 });
 
-export default function UpdateEvent({ params }: { params: { slug: string } }) {
+export default function UpdateMember({ params }: { params: { slug: string } }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -51,7 +51,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
         if (response.status === 200) {
           const personData = response.data;
           form.reset({
-            name: personData.title || "",
+            name: personData.name || "",
             role: personData.role || "",
             image: personData.image || "",
             description: personData.description || "",
@@ -95,7 +95,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       <Navbar />
       <Form {...form}>
         <form
-          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
+          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6 lg:h-[calc(100vh-150px)]"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">

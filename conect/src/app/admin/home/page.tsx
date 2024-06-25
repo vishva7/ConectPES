@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
-import CarouselItem from "@/components/gallery";
+import Image from "next/image";
 
 interface homePost {
   _id: string;
@@ -50,7 +50,7 @@ const tabsData = [
   { id: "publications", icon: <Library />, label: "Publications" },
 ];
 
-export default function EventDashboard() {
+export default function HomeDashboard() {
   const [activeTab, setActiveTab] = useState("home");
   const [home, setHome] = useState<homePost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,9 +63,7 @@ export default function EventDashboard() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/home/delete/${homeId}`
       );
       if (response.status === 200) {
-        setHome(
-          home.filter((home) => home._id !== homeId)
-        );
+        setHome(home.filter((home) => home._id !== homeId));
       } else {
         console.error("Failed to delete home");
       }
@@ -166,7 +164,7 @@ export default function EventDashboard() {
             <Button
               size="sm"
               onClick={() => {
-                router.push("/admin/events/create");
+                router.push("/admin/home/create");
               }}
             >
               <PlusSquare className="h-4 w-4 mr-2" />
@@ -175,9 +173,45 @@ export default function EventDashboard() {
           </header>
           <div className="flex-1 overflow-auto p-6">
             <div className="grid gap-6">
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {home.map((home, index) => (
-                  <CarouselItem key={index} {...home} />
+                  <Card className="w-full max-w-md">
+                    <Image
+                      src={home.image}
+                      width={400}
+                      height={300}
+                      alt={home.title}
+                      priority={true}
+                    />
+                    <CardContent className="p-6 space-y-4">
+                      <div className="space-y-2">
+                        <CardTitle>{home.title}</CardTitle>
+                        <CardDescription>{home.description}</CardDescription>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            router.push(`/admin/home/update/${home._id}`);
+                          }}
+                        >
+                          <Pencil className="h-6 w-6" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          onClick={() => handleDelete(home._id)}
+                        >
+                          <Trash2 className="h-6 w-6" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
                 ))}
               </div>
             </div>

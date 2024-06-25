@@ -39,7 +39,7 @@ interface People {
   name: string;
   role: string;
   image: string;
-  desc: string;
+  description: string;
 }
 
 const tabsData = [
@@ -174,7 +174,7 @@ export default function PeopleDashboard() {
           </header>
           <div className="flex-1 overflow-auto p-6">
             <div className="grid gap-6">
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {people.map((person, index) => (
                   <Card className="w-full max-w-sm rounded-xl border">
                     <div className="p-6 grid gap-4">
@@ -191,7 +191,7 @@ export default function PeopleDashboard() {
                         </div>
                       </div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {person.desc}
+                        {person.description}
                       </p>
                     </div>
                     <CardFooter className="flex justify-between">
