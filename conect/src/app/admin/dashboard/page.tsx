@@ -30,29 +30,6 @@ const tabsData = [
   { id: "publications", icon: <Library />, label: "Publications" },
 ];
 
-const products = [
-  {
-    title: "Product 1",
-    description: "This is the first product.",
-    inStock: 50,
-  },
-  {
-    title: "Product 2",
-    description: "This is the second product.",
-    inStock: 25,
-  },
-  {
-    title: "Product 3",
-    description: "This is the third product.",
-    inStock: 75,
-  },
-  {
-    title: "Product 4",
-    description: "This is the fourth product.",
-    inStock: 100,
-  },
-];
-
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("");
   const router = useRouter();
@@ -116,7 +93,10 @@ export default function AdminDashboard() {
             <h1 className="text-xl font-semibold">Welcome Sir!</h1>
           </header>
           <div className="flex-1 overflow-auto p-6 text-center">
-            Click on one the tabs on the side to get started!
+            <p>Click on one the tabs on the side to get started!</p>
+            <Link href="/admin/contact">
+              <Button>Update Contact Details</Button>
+            </Link>
           </div>
         </main>
       </div>

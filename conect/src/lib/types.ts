@@ -24,3 +24,9 @@ export interface facilities {
   image: string;
   specs: string;
 }
+
+export interface contacts {
+  email: string;
+  address: string;
+  phone: string;
+}

@@ -16,60 +16,55 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import axios from "axios";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
 
 const FormSchema = z.object({
-  name: z.string().min(1, { message: "This field has to be filled." }),
-  role: z.string().min(1, { message: "This field has to be filled." }),
-  image: z.string().min(1, { message: "This field has to be filled." }),
-  description: z.string().min(1, { message: "This field has to be filled." }),
+  email: z.string().min(1, { message: "This field has to be filled." }),
+  address: z.string().min(1, { message: "This field has to be filled." }),
+  phone: z.string().min(1, { message: "This field has to be filled." }),
 });
 
-export default function UpdateEvent({ params }: { params: { slug: string } }) {
+export default function UpdateContact() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
-      role: "",
-      image: "",
-      description: "",
+      email: "",
+      address: "",
+      phone: "",
     },
   });
 
   useEffect(() => {
-    console.log(params.slug);
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/${params.slug}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/all`
         );
         if (response.status === 200) {
-          const personData = response.data;
+          const contactData = response.data;
           form.reset({
-            name: personData.title || "",
-            role: personData.role || "",
-            image: personData.image || "",
-            description: personData.description || "",
+            email: contactData.email || "",
+            address: contactData.address || "",
+            phone: contactData.phone || "",
           });
         }
       } catch (error) {
-        console.error("Failed to load person:", error);
+        console.error("Failed to load contact:", error);
       }
     };
 
     fetchData();
-  }, [params.slug, form]);
+  }, [form]);
 
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
       let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/update/${params.slug}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/update`,
         formdata
       );
       if (response.status === 200) {
@@ -78,7 +73,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
           title: "Updated successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/people");
+        router.push("/admin/contact");
       }
     } catch (error) {
       console.log(error);
@@ -95,22 +90,22 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       <Navbar />
       <Form {...form}>
         <form
-          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
+          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6 lg:h-[calc(100vh-150px)]"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Update a Member</div>
+            <div className="text-3xl font-bold">Update Contact Page</div>
             <p className="text-gray-500 dark:text-gray-400">
-              Enter Member Details
+              Enter Contact Details
             </p>
             <FormField
               control={form.control}
-              name="name"
+              name="email"
               render={({ field }) => (
                 <FormItem className="space-y-2 text-left">
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="text" {...field} />
+                    <Input type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,36 +113,10 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
             />
             <FormField
               control={form.control}
-              name="role"
+              name="address"
               render={({ field }) => (
                 <FormItem className="space-y-2 text-left">
-                  <FormLabel>Role</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Image Link</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Address</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Type the description here"
@@ -158,8 +127,21 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className="space-y-2 text-left">
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <Input type="tel" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button className="w-full lg:w-1/3" type="submit">
-              Update Member
+              Update Contact Details
             </Button>
           </div>
         </form>

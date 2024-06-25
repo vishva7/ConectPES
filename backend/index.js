@@ -10,6 +10,7 @@ const facilitiesRoutes = require("./routes/facilitiesRoutes");
 const publicationRoutes = require("./routes/publicationRoutes");
 const peopleRoutes = require("./routes/peopleRoutes");
 const homeRoutes = require("./routes/homeRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 const app = express();
 const PORT = 10000;
@@ -36,4 +37,5 @@ app.use("/people", peopleRoutes);
 app.use("/publications", publicationRoutes);
 app.use("/facilities", facilitiesRoutes);
 app.use("/home", homeRoutes);
+app.use("/contact", contactRoutes);
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

@@ -20,7 +20,7 @@ function Footer() {
         </p>
       </div>
       <Link
-        href="https://staff.pes.edu/nm1432/"
+        href="/contact"
         className="text-secondary text-sm lg:text-base justify-self-end self-center hover:underline flex-shrink-0 mr-2"
       >
         Contact Us
