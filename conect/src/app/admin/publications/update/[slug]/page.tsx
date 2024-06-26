@@ -51,9 +51,9 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
           const personData = response.data;
           form.reset({
             title: personData.title || "",
-            authors: personData.title || "",
-            summary: personData.image || "",
-            link: personData.description || "",
+            authors: personData.authors || "",
+            summary: personData.summary || "",
+            link: personData.link || "",
           });
         }
       } catch (error) {
@@ -98,7 +98,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Add an Event</div>
+            <div className="text-3xl font-bold">Update a Publication</div>
             <p className="text-gray-500 dark:text-gray-400">
               Enter Publication Details
             </p>

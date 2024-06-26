@@ -22,9 +22,6 @@ const FacilityCard = ({ title, description, image, specs }: facilities) => {
             <h3 className="text-lg font-semibold">Facility Specifications</h3>
             <div className="text-sm">{specs}</div>
           </div>
-          <Button variant="outline" className="justify-self-start">
-            Learn More
-          </Button>
         </div>
       </CardContent>
     </Card>

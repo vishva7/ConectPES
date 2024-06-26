@@ -80,7 +80,7 @@ export default function CreateEvent() {
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Add an Event</div>
+            <div className="text-3xl font-bold">Add a Publication</div>
             <p className="text-gray-500 dark:text-gray-400">
               Enter Publication Details
             </p>

@@ -42,7 +42,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div style={{ height: "calc(100vh - 150px)" }}>
+      <div className="lg:h-[calc(100vh-150px)] w-full">
         <Carousel
           showArrows={false}
           autoPlay
@@ -52,6 +52,7 @@ const Home = () => {
           emulateTouch
           showThumbs={false}
           interval={3500}
+          className=""
         >
           {carouselItemsData.map((item: CarouselData, index) => (
             <CarouselItem key={index} {...item} />

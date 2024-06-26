@@ -24,7 +24,7 @@ import { useEffect } from "react";
 const FormSchema = z.object({
   name: z.string().min(1, { message: "This field has to be filled." }),
   role: z.string().min(1, { message: "This field has to be filled." }),
-  image: z.string().min(1, { message: "This field has to be filled." }),
+  image: z.string(),
   description: z.string().min(1, { message: "This field has to be filled." }),
 });
 
@@ -78,7 +78,7 @@ export default function UpdateMember({ params }: { params: { slug: string } }) {
           title: "Updated successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/people");
+        router.push("/admin/members");
       }
     } catch (error) {
       console.log(error);

@@ -61,7 +61,7 @@ export default function PeopleDashboard() {
   const handleDelete = async (personId: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/delete/${personId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/delete/${personId}`
       );
       if (response.status === 200) {
         setPeople(people.filter((person) => person._id !== personId));

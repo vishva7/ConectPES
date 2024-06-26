@@ -200,12 +200,6 @@ export default function FacilityDashboard() {
                           </h3>
                           <div className="text-sm">{facility.specs}</div>
                         </div>
-                        <Button
-                          variant="outline"
-                          className="justify-self-start"
-                        >
-                          Learn More
-                        </Button>
                       </div>
                     </CardContent>
                     <CardFooter>

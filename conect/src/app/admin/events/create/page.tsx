@@ -26,7 +26,7 @@ const FormSchema = z.object({
   date: z.string().min(1, { message: "This field has to be filled." }),
   time: z.string().min(1, { message: "This field has to be filled." }),
   registrationLink: z.string(),
-  image: z.string().min(1, { message: "This field has to be filled." }),
+  image: z.string(),
   upcoming: z.string().min(1, { message: "This field has to be filled." }),
 });
 
