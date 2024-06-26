@@ -4,7 +4,7 @@ import { Card } from "./ui/Card";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { details } from "@/lib/types";
 
-export default function MemberCard({ name, role, image, desc }: details) {
+export default function MemberCard({ name, role, image, description }: details) {
   return (
     <Card className="w-full max-w-sm rounded-xl border">
       <div className="p-6 grid gap-4">
@@ -21,7 +21,7 @@ export default function MemberCard({ name, role, image, desc }: details) {
           </div>
         </div>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {desc}
+          {description}
         </p>
       </div>
     </Card>

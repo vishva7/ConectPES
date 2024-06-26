@@ -10,7 +10,7 @@ interface People {
   name: string;
   role: string;
   image: string;
-  desc: string;
+  description: string;
 }
 
 export default function About() {
