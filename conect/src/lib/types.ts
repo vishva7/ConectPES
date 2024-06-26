@@ -2,7 +2,7 @@ export interface details {
   name: string;
   role: string;
   image: string;
-  desc: string;
+  description: string;
 }
 
 export interface publications {
