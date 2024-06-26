@@ -178,7 +178,7 @@ export default function FacilityDashboard() {
             <div className="grid gap-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {facilities.map((facility, index) => (
-                  <Card className="w-full max-w-md">
+                  <Card key={index} className="w-full max-w-md">
                     <Image
                       src={facility.image}
                       width={400}

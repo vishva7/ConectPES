@@ -176,7 +176,7 @@ export default function PeopleDashboard() {
             <div className="grid gap-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {people.map((person, index) => (
-                  <Card className="w-full max-w-sm rounded-xl border">
+                  <Card key={index} className="w-full max-w-sm rounded-xl border">
                     <div className="p-6 grid gap-4">
                       <div className="flex gap-8 items-center">
                         <Avatar>

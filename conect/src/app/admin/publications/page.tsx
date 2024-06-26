@@ -169,7 +169,7 @@ export default function PeopleDashboard() {
             <div className="grid gap-6">
               <div className="grid grid-cols-1 gap-4">
                 {publications.map((publication, index) => (
-                  <Card>
+                  <Card key={index}>
                     <CardHeader className="flex flex-col gap-1">
                       <CardTitle className="text-base">
                         {publication.title}

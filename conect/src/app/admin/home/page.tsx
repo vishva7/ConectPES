@@ -175,7 +175,7 @@ export default function HomeDashboard() {
             <div className="grid gap-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {home.map((home, index) => (
-                  <Card className="w-full max-w-md">
+                  <Card key={index} className="w-full max-w-md">
                     <Image
                       src={home.image}
                       width={400}

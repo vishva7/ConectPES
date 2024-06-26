@@ -7,14 +7,14 @@ import Link from "next/link";
 import { contacts } from "@/lib/types";
 
 export default function ContactPage() {
-  const [contacts, setContacts] = useState<contacts>({
+  const [contactData, setContacts] = useState<contacts>({
     email: "",
     address: "",
     phone: "",
   });
 
   useEffect(() => {
-    console.log("contact", contacts);
+    console.log("contact", contactData);
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/all`)
       .then((response) => {
@@ -27,7 +27,7 @@ export default function ContactPage() {
       });
   }, []);
 
-  if (!contacts) {
+  if (!contactData) {
     return (
       <>
         <Navbar />
@@ -41,7 +41,7 @@ export default function ContactPage() {
       <Navbar />
       <div className="flex flex-col lg:h-[calc(100vh-150px)] bg-gray-100">
         <main className="flex-1 place-content-center">
-          {contacts && (
+          {contactData && (
             <section className="w-full">
               <div className="container px-4 md:px-6">
                 <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
@@ -51,13 +51,13 @@ export default function ContactPage() {
                         Get in Touch
                       </h1>
                       <p className="max-w-[600px] text-gray-500 md:text-xl">
-                        Have a question or want to work together? Don't hesitate
+                        Have a question or want to work together? Don&apos;t hesitate
                         to reach out.
                       </p>
                     </div>
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
                       <Link
-                        href={`mailto:${contacts.email}`}
+                        href={`mailto:${contactData.email}`}
                         className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
                         prefetch={false}
                       >
@@ -68,15 +68,15 @@ export default function ContactPage() {
                   <div className="grid gap-6">
                     <div className="grid gap-1">
                       <h3 className="text-xl font-bold">Phone</h3>
-                      <p className="text-gray-500">{contacts.phone}</p>
+                      <p className="text-gray-500">{contactData.phone}</p>
                     </div>
                     <div className="grid gap-1">
                       <h3 className="text-xl font-bold">Address</h3>
-                      <p className="text-gray-500">{contacts.address}</p>
+                      <p className="text-gray-500">{contactData.address}</p>
                     </div>
                     <div className="grid gap-1">
                       <h3 className="text-xl font-bold">Email</h3>
-                      <p className="text-gray-500">{contacts.email}</p>
+                      <p className="text-gray-500">{contactData.email}</p>
                     </div>
                   </div>
                 </div>
