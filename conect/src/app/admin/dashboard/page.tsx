@@ -39,6 +39,11 @@ export default function AdminDashboard() {
     user = localStorage.getItem("user");
   }
 
+  function handleLogout() {
+    localStorage.clear();
+    router.push("/");
+  }
+
   if (user != "admin") {
     redirect("/");
   } else {
@@ -61,10 +66,9 @@ export default function AdminDashboard() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>My Account</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
