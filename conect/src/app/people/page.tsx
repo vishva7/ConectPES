@@ -19,7 +19,17 @@ export default function About() {
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/people/all`)
       .then((response) => {
-        setAbout(response.data);
+        let people = response.data.map((person: People) => {
+          const matchResult = person.image.match(/file\/d\/(.*?)\//);
+          if (matchResult) {
+            const fileId = matchResult[1];
+            const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            return { ...person, image: newImageUrl };
+          } else {
+            return person;
+          }
+        });
+        setAbout(people);
       })
       .catch((err) => console.log(err));
   }, []);
