@@ -104,7 +104,11 @@ export default function CreateEvent() {
                 <FormItem className="space-y-2 text-left">
                   <FormLabel>Authors</FormLabel>
                   <FormControl>
-                    <Input type="text" {...field} />
+                    <Textarea
+                      placeholder="Authors and published in can be mentioned here"
+                      wrap="hard"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -174,9 +174,12 @@ export default function PeopleDashboard() {
                       <CardTitle className="text-base">
                         {publication.title}
                       </CardTitle>
-                      <CardDescription className="text-sm">
-                        {publication.authors}
-                      </CardDescription>
+                      <CardDescription
+                        className="text-sm"
+                        dangerouslySetInnerHTML={{
+                          __html: publication.authors.replace(/\n/g, "<br>"),
+                        }}
+                      ></CardDescription>
                     </CardHeader>
                     <CardContent className="text-sm/relaxed">
                       <p>{publication.summary}</p>

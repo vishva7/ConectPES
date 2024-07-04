@@ -122,7 +122,11 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
                 <FormItem className="space-y-2 text-left">
                   <FormLabel>Authors</FormLabel>
                   <FormControl>
-                    <Input type="text" {...field} />
+                    <Textarea
+                      placeholder="Authors and published in can be mentioned here"
+                      wrap="hard"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -155,7 +159,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
               )}
             />
             <Button className="w-full lg:w-1/3" type="submit">
-              Add Publication
+              Update Publication
             </Button>
           </div>
         </form>
