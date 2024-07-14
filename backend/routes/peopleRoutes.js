@@ -28,6 +28,8 @@ router.post("/create", async (req, res) => {
     role: req.body.role,
     image: req.body.image,
     description: req.body.description,
+    category: req.body.category,
+    link: req.body.link,
   });
   try {
     let savedPerson = await person.save();
@@ -54,7 +56,10 @@ router.delete("/delete/:id", async (req, res) => {
 router.put("/update/:id", async (req, res) => {
   try {
     console.log(req.params.id);
-    const updatedPerson = await People.findByIdAndUpdate(req.params.id, req.body);
+    const updatedPerson = await People.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
     if (!updatedPerson) {
       return res.status(404).json({ error: "Person not found" });
     }

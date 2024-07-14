@@ -3,6 +3,8 @@ export interface details {
   role: string;
   image: string;
   description: string;
+  category: string;
+  link: string;
 }
 
 export interface publications {

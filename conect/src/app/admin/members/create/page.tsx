@@ -18,12 +18,23 @@ import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Navbar from "@/components/navbar";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface People {
   name: string;
   role: string;
   image: string;
   description: string;
+  category: string;
+  link: string;
 }
 
 const FormSchema = z.object({
@@ -31,6 +42,8 @@ const FormSchema = z.object({
   role: z.string().min(1, { message: "This field has to be filled." }),
   image: z.string().min(1, { message: "This field has to be filled." }),
   description: z.string().min(1, { message: "This field has to be filled." }),
+  category: z.string().min(1, { message: "This field has to be filled." }),
+  link: z.string(),
 });
 
 export default function CreateMember() {
@@ -43,6 +56,8 @@ export default function CreateMember() {
       role: "",
       image: "",
       description: "",
+      category: "",
+      link: "",
     },
   });
 
@@ -139,6 +154,48 @@ export default function CreateMember() {
                 </FormItem>
               )}
             />
+            <div className="grid grid-cols-2">
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="space-y-1 text-left mr-2">
+                    <FormLabel>Category</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Faculty">Faculty</SelectItem>
+                        <SelectItem value="Research Scholar">
+                          Research Scholar
+                        </SelectItem>
+                        <SelectItem value="Student">Student</SelectItem>
+                        <SelectItem value="Alumni">Alumni</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem className="space-y-1 text-left ml-2">
+                    <FormLabel>Website Link</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <Button className="w-full lg:w-1/3" type="submit">
               Add Member
             </Button>

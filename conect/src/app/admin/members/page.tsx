@@ -28,7 +28,7 @@ import {
   PlusSquare,
   Pencil,
   Trash2,
-  Home
+  Home,
 } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
@@ -40,6 +40,8 @@ interface People {
   role: string;
   image: string;
   description: string;
+  category: string;
+  link: string;
 }
 
 const tabsData = [
@@ -176,13 +178,20 @@ export default function PeopleDashboard() {
             <div className="grid gap-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {people.map((person, index) => (
-                  <Card key={index} className="w-full max-w-sm rounded-xl border">
+                  <Card
+                    key={index}
+                    className="w-full max-w-sm rounded-xl border"
+                  >
                     <div className="p-6 grid gap-4">
                       <div className="flex gap-8 items-center">
-                        <Avatar>
-                          <AvatarImage src={person.image} className="" />
-                          <AvatarFallback>{person.name[0]}</AvatarFallback>
-                        </Avatar>
+                        <div className="w-24 h-24 rounded-full overflow-hidden">
+                          <Image
+                            src={person.image}
+                            width={96}
+                            height={96}
+                            alt={person.name[0]}
+                          />
+                        </div>
                         <div className="grid gap-1.5">
                           <h2 className="text-lg font-bold">{person.name}</h2>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -192,6 +201,12 @@ export default function PeopleDashboard() {
                       </div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         {person.description}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Link: {person.link}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Category: {person.category}
                       </p>
                     </div>
                     <CardFooter className="flex justify-between">
