@@ -16,7 +16,7 @@ function Footer() {
           Center Of Networking and Evolving Communication Technologies
         </p>
         <p className="text-center text-xs lg:text-base">
-          6th Floor, Main Block, PESU ECC, Bengaluru - 560100
+          Room 505, 5th Floor, Main Block, PESU EC Campus, Bengaluru - 560100
         </p>
       </div>
       <Link

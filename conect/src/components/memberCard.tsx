@@ -4,6 +4,7 @@ import { Card } from "./ui/Card";
 import { details } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 export default function MemberCard({
   name,
@@ -21,19 +22,20 @@ export default function MemberCard({
             <Image src={image} width={96} height={96} alt={name[0]} />
           </div>
           <div className="grid gap-1.5">
-            {link ? (
-              <Link href={link} target="_blank">
-                <h2 className="text-lg font-bold hover:underline">{name}</h2>
-              </Link>
-            ) : (
-              <h2 className="text-lg font-bold">{name}</h2>
-            )}
+            <h2 className="text-lg font-bold">{name}</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">{role}</p>
           </div>
         </div>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {description}
         </p>
+        {link ? (
+          <Link href={link} className="mx-auto">
+            <Button>Read More</Button>
+          </Link>
+        ) : (
+          <></>
+        )}
       </div>
     </Card>
   );

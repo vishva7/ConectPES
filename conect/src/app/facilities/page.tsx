@@ -42,34 +42,29 @@ export default function Facilities() {
                   Research Facilities
                 </h1>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-400 mt-2">
-                  Explore our cutting-edge research facilities, each equipped
-                  with state-of-the-art technology and staffed by experts in
-                  their field.
+                  Even being relatively new research centre we have sufficient
+                  amount of hardware and software tools to continue our work and
+                  research. We are in the process of getting more resources to
+                  do advance studies and activates. We are also in collaboration
+                  with other research centres and hence we have our extended
+                  purview of resources to be used. In short resource is not
+                  bottleneck for research and innovation.
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="border-t border-gray-200 dark:border-gray-800">
-          <div className="container px-4 md:px-6 mb-8">
-            <div className="grid gap-6 lg:gap-8">
-              <div className="flex flex-col gap-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl mt-4">
-                  Capabilities
-                </h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-400 mt-4">
-                  Our research center offers a wide range of capabilities to
-                  support innovative research across various disciplines. From
-                  advanced imaging and spectroscopy to high-performance
-                  computing, we provide the tools and expertise to drive
-                  scientific discovery and technological breakthroughs.
-                </p>
-              </div>
-              <div className="grid gap-6 md:grid-cols-3 xl:gap-8">
-                {facilitiesData.map((item: facilities, index) => (
-                  <FacilityCard key={index} {...item} />
-                ))}
-              </div>
+        <div className="container px-4 md:px-6 mb-8">
+          <div className="grid gap-6 lg:gap-8">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl mt-4">
+                Capabilities
+              </h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-3 xl:gap-8">
+              {facilitiesData.map((item: facilities, index) => (
+                <FacilityCard key={index} {...item} />
+              ))}
             </div>
           </div>
         </div>
