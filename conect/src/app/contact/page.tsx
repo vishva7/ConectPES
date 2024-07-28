@@ -38,6 +38,10 @@ export default function ContactPage() {
     );
   }
 
+  const formatAddress = (text: string) => {
+    return { __html: text.replace(/\n/g, "<br>") };
+  };
+
   return (
     <>
       <Navbar />
@@ -60,7 +64,12 @@ export default function ContactPage() {
                     <div className="grid gap-6">
                       <div className="grid gap-1">
                         <h3 className="text-xl font-bold">Address</h3>
-                        <p className="text-gray-500">{contactData.address}</p>
+                        <p
+                          className="text-gray-500"
+                          dangerouslySetInnerHTML={formatAddress(
+                            contactData.address
+                          )}
+                        ></p>
                       </div>
                       <div className="grid gap-1">
                         <h3 className="text-xl font-bold">Email</h3>
