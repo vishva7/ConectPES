@@ -30,7 +30,7 @@ export default function MemberCard({
           {description}
         </p>
         {link ? (
-          <Link href={link} className="mx-auto">
+          <Link href={link} target="_blank" className="mx-auto">
             <Button>Read More</Button>
           </Link>
         ) : (

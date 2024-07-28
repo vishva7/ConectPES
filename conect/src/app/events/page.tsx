@@ -51,7 +51,7 @@ export default function EventsPage() {
   return (
     <>
       <Navbar />
-      <h1 className="text-center text-4xl mt-4 mb-1 font-bold">Events</h1>
+      <h1 className="text-center text-4xl my-6 font-bold">Events</h1>
       <div className="grid grid-cols-1 gap-4 p-4">
         {events.map((event, index) => (
           <Card

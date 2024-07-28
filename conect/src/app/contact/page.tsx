@@ -5,6 +5,8 @@ import axios from "axios";
 import Navbar from "@/components/navbar";
 import Link from "next/link";
 import { contacts } from "@/lib/types";
+import Image from "next/image";
+import map from "../../../public/map.jpg";
 
 export default function ContactPage() {
   const [contactData, setContacts] = useState<contacts>({
@@ -39,21 +41,31 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col lg:h-[calc(100vh-150px)] bg-gray-100">
+      <div className="flex flex-col h-screen lg:h-[calc(100vh-150px)] bg-gray-100">
         <main className="flex-1 place-content-center">
           {contactData && (
             <section className="w-full">
               <div className="container px-4 md:px-6">
-                <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+                <div className="grid gap-4 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
                   <div className="flex flex-col justify-center space-y-4">
                     <div className="space-y-2">
                       <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                         Get in Touch
                       </h1>
                       <p className="max-w-[600px] text-gray-500 md:text-xl">
-                        Have a question or want to work together? Don&apos;t hesitate
-                        to reach out.
+                        Have a question or want to work together? Don&apos;t
+                        hesitate to reach out.
                       </p>
+                    </div>
+                    <div className="grid gap-6">
+                      <div className="grid gap-1">
+                        <h3 className="text-xl font-bold">Address</h3>
+                        <p className="text-gray-500">{contactData.address}</p>
+                      </div>
+                      <div className="grid gap-1">
+                        <h3 className="text-xl font-bold">Email</h3>
+                        <p className="text-gray-500">{contactData.email}</p>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
                       <Link
@@ -65,20 +77,12 @@ export default function ContactPage() {
                       </Link>
                     </div>
                   </div>
-                  <div className="grid gap-6">
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Phone</h3>
-                      <p className="text-gray-500">{contactData.phone}</p>
-                    </div>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Address</h3>
-                      <p className="text-gray-500">{contactData.address}</p>
-                    </div>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Email</h3>
-                      <p className="text-gray-500">{contactData.email}</p>
-                    </div>
-                  </div>
+                  <Link
+                    href="https://maps.app.goo.gl/Fn9C9ZdmjnbhSQs59"
+                    target="_blank"
+                  >
+                    <Image src={map} alt="Map location of PESU EC Campus" />
+                  </Link>
                 </div>
               </div>
             </section>

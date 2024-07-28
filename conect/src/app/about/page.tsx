@@ -23,7 +23,6 @@ export default function About() {
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Mission</h2>
                 <p className="text-gray-500 md:text-xl/relaxed dark:text-gray-400">
                   We have some hardware and software required in this field. Our
                   students can get knowledge about those and can use for their
@@ -35,7 +34,6 @@ export default function About() {
                 </p>
               </div>
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Vision</h2>
                 <p className="text-gray-500 md:text-xl/relaxed dark:text-gray-400">
                   Our bigger plan is to make the centre as reputed technological
                   and innovation centre across India. We are supporting and

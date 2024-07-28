@@ -44,12 +44,12 @@ export default function ProjectsPage() {
   return (
     <>
       <Navbar />
-      <h1 className="text-center text-4xl mt-4 mb-1 font-bold">Projects</h1>
+      <h1 className="text-center text-4xl my-6 font-bold">Projects</h1>
       <div className="grid grid-cols-1 gap-4 p-4 place-items-center">
         {projects.map((project, index) => (
           <Card
             key={index}
-            className="min-w-full grid grid-cols-1 lg:grid-cols-3 px-2 py-4"
+            className="min-w-full grid grid-cols-1 lg:grid-cols-3 px-2 py-4 xl:px-8"
           >
             <Image
               src={project.image}

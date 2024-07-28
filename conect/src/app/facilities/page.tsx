@@ -58,7 +58,7 @@ export default function Facilities() {
           <div className="grid gap-6 lg:gap-8">
             <div className="flex flex-col gap-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl mt-4">
-                Capabilities
+                Resources
               </h2>
             </div>
             <div className="grid gap-6 md:grid-cols-3 xl:gap-8">
