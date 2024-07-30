@@ -35,13 +35,13 @@ export default function Facilities() {
       <Navbar />
       <div className="bg-gray-50/90">
         <div className="w-full py-12">
-          <div className="container px-4 md:px-6">
+          <div className="container px-4 md:px-6 text-justify">
             <div className="grid gap-6 lg:gap-8">
               <div className="flex flex-col gap-1">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Research Facilities
                 </h1>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-400 mt-2">
+                <p className="text-gray-500 md:text-xl/relaxed dark:text-gray-400 mt-2">
                   Even being relatively new research centre we have sufficient
                   amount of hardware and software tools to continue our work and
                   research. We are in the process of getting more resources to

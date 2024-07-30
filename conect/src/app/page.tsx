@@ -10,6 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import Navbar from "@/components/navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -48,7 +49,17 @@ export default function Home() {
       <Navbar />
       <div className="flex">
         <div className="w-full place-content-center lg:h-[calc(100vh-150px)] mx-auto p-2 lg:p-8">
-          <Carousel className="rounded-lg overflow-hidden">
+          <Carousel
+            className="rounded-lg overflow-hidden"
+            opts={{
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 4000,
+              }),
+            ]}
+          >
             <CarouselContent>
               {carouselItemsData.map((item: CarouselData, index) => (
                 <CarouselItem key={index}>

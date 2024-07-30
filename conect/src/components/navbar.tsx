@@ -46,7 +46,7 @@ export default function Navbar() {
             {menus.map((item, idx) => (
               <li
                 key={idx}
-                className="hover:text-blue-500 text-secondary text-lg"
+                className="hover:text-[#d0a616] text-secondary text-lg"
               >
                 <Link href={item.path}>{item.title}</Link>
               </li>

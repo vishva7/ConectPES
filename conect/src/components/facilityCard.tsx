@@ -11,7 +11,7 @@ import Image from "next/image";
 const FacilityCard = ({ title, description, image, specs }: facilities) => {
   return (
     <Card className="w-full max-w-md">
-      <Image src={image} width={400} height={300} alt={title} priority={true} />
+      <Image src={image} width={448} height={300} alt={title} priority={true} />
       <CardContent className="p-6 space-y-4">
         <div className="space-y-2">
           <CardTitle>{title}</CardTitle>
@@ -19,7 +19,7 @@ const FacilityCard = ({ title, description, image, specs }: facilities) => {
         </div>
         <div className="grid gap-4">
           <div>
-            <h3 className="text-lg font-semibold">Facility Specifications</h3>
+            <h3 className="text-lg font-semibold">Specifications</h3>
             <div className="text-sm">{specs}</div>
           </div>
         </div>

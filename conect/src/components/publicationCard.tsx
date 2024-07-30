@@ -23,7 +23,7 @@ function PublicationCard({ title, authors, summary, link }: publications) {
           dangerouslySetInnerHTML={formatAuthors(authors)}
         ></CardDescription>
       </CardHeader>
-      <CardContent className="text-sm/relaxed">
+      <CardContent className="text-sm/relaxed text-justify">
         <p>{summary}</p>
       </CardContent>
       <CardFooter>
