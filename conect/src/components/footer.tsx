@@ -9,9 +9,9 @@ function Footer() {
         alt="PES"
         height={50}
         width={40}
-        className="my-1 mx-4"
+        className="my-1 mx-0 lg:mx-4"
       />
-      <div className="text-secondary">
+      <div className="text-secondary max-w-60 lg:max-w-full">
         <p className="text-center text-sm lg:text-base lg:font-semibold">
           Center Of Networking and Evolving Communication Technologies
         </p>
@@ -19,7 +19,7 @@ function Footer() {
           Room 505, 5th Floor, Main Block, PESU EC Campus, Bengaluru - 560100
         </p>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col lg:space-y-2">
         <Link
           href="/contact"
           className="text-secondary text-sm justify-self-end self-center hover:underline hover:text-[#d0a616] mr-2"
@@ -30,7 +30,7 @@ function Footer() {
           href="/developers"
           className="text-secondary text-sm justify-self-end self-center hover:underline hover:text-[#d0a616] mr-2"
         >
-          Developers
+          Made By
         </Link>
       </div>
     </div>
