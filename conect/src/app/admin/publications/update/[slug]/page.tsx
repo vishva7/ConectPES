@@ -25,6 +25,7 @@ const FormSchema = z.object({
   authors: z.string().min(1, { message: "This field has to be filled." }),
   summary: z.string().min(1, { message: "This field has to be filled." }),
   link: z.string().min(1, { message: "This field has to be filled." }),
+  position: z.coerce.number().min(0, { message: "This field has to be filled." })
 });
 
 export default function UpdateEvent({ params }: { params: { slug: string } }) {
@@ -37,6 +38,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       authors: "",
       summary: "",
       link: "",
+      position: 0,
     },
   });
 
@@ -54,6 +56,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
             authors: personData.authors || "",
             summary: personData.summary || "",
             link: personData.link || "",
+            position: Number(personData.position) || 0,
           });
         }
       } catch (error) {
@@ -94,7 +97,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       <Navbar />
       <Form {...form}>
         <form
-          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6 lg:h-[calc(100vh-150px)]"
+          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
@@ -153,6 +156,19 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
                   <FormLabel>Link</FormLabel>
                   <FormControl>
                     <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="position"
+              render={({ field }) => (
+                <FormItem className="space-y-2 text-left">
+                  <FormLabel>Reorder Publication on Page - Position</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

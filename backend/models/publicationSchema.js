@@ -6,6 +6,7 @@ let publicationSchema = new Schema({
   authors: { type: String, required: true },
   summary: { type: String, required: true },
   link: { type: String, required: true },
+  position: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Publication", publicationSchema);

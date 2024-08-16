@@ -24,6 +24,7 @@ interface Events {
   registrationLink: string;
   image: string;
   upcoming: Boolean;
+  position: number;
 }
 
 export default function EventsPage() {
@@ -43,6 +44,7 @@ export default function EventsPage() {
             return event;
           }
         });
+        newEvents.sort((a: Events, b: Events) => a.position - b.position);
         setEvents(newEvents);
       })
       .catch((err) => console.log(err));

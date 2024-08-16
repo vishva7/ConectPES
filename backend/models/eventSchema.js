@@ -9,6 +9,7 @@ let eventSchema = new Schema({
   registrationLink: { type: String },
   image: { type: String, required: true },
   upcoming: { type: Boolean, required: true },
+  position: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Event", eventSchema);

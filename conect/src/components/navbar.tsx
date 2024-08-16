@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Search, ShoppingCart } from "lucide-react";
-// import { ModeToggle } from "./modeToggle";
+import { Menu } from "lucide-react";
 import Logo from "../../public/Logo.png";
 import Image from "next/image";
 
@@ -19,6 +18,7 @@ export default function Navbar() {
     { title: "Events", path: "/events" },
     { title: "Publications", path: "/publications" },
     { title: "Contact", path: "/contact" },
+    { title: "Gallery", path: "/gallery" }
   ];
 
   return (
@@ -38,9 +38,8 @@ export default function Navbar() {
           </div>
         </div>
         <div
-          className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
-            state ? "block" : "hidden"
-          }`}
+          className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${state ? "block" : "hidden"
+            }`}
         >
           <ul className="justify-end items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
             {menus.map((item, idx) => (

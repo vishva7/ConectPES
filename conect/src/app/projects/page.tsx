@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as React from "react";
@@ -17,6 +18,7 @@ interface Project {
   description: string;
   image: string;
   available: Boolean;
+  position: number;
 }
 
 export default function ProjectsPage() {
@@ -36,6 +38,7 @@ export default function ProjectsPage() {
             return project;
           }
         });
+        newProjects.sort((a: Project, b: Project) => a.position - b.position);
         setProjects(newProjects);
       })
       .catch((err) => console.log(err));

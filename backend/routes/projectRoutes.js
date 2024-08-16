@@ -28,6 +28,7 @@ router.post("/create", async (req, res) => {
     description: req.body.description,
     image: req.body.image,
     available: req.body.available,
+    position: Number(req.body.position),
   });
   try {
     let savedProject = await project.save();

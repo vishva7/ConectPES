@@ -15,7 +15,6 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
   CardContent,
   CardFooter,
 } from "@/components/ui/Card";
@@ -33,15 +32,14 @@ import {
   FileBadge
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
+import axios from "axios";
 
-interface facilities {
+interface Gallery {
   _id: string;
   title: string;
-  description: string;
   image: string;
-  specs: string;
+  position: number;
 }
 
 const tabsData = [
@@ -55,27 +53,29 @@ const tabsData = [
   { id: "certificates", icon: <FileBadge />, label: "Certificates" }
 ];
 
-export default function FacilityDashboard() {
-  const [activeTab, setActiveTab] = useState("facilities");
-  const [facilities, setFacilities] = useState<facilities[]>([]);
+export default function GalleryDashboard() {
+  const [activeTab, setActiveTab] = useState("gallery");
+  const [photos, setPhotos] = useState<Gallery[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const router = useRouter();
 
-  const handleDelete = async (facilityId: string) => {
+  const handleDelete = async (photoId: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/facilities/delete/${facilityId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/delete/${photoId}`
       );
       if (response.status === 200) {
-        setFacilities(
-          facilities.filter((facility) => facility._id !== facilityId)
+        setPhotos(
+          photos.filter(
+            (photo) => photo._id !== photoId
+          )
         );
       } else {
-        console.error("Failed to delete facility");
+        console.error("Failed to delete photo");
       }
     } catch (error) {
-      console.error("Error deleting facility:", error);
+      console.error("Error deleting photo:", error);
     }
   };
 
@@ -85,22 +85,23 @@ export default function FacilityDashboard() {
   }
 
   useEffect(() => {
-    const fetchFacilities = async () => {
+    const fetchPhotos = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/facilities/all`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/all`
         );
-        let newFacilities = response.data.map((facility: facilities) => {
-          const matchResult = facility.image.match(/file\/d\/(.*?)\//);
+        let newPhotos = response.data.map((photo: Gallery) => {
+          const matchResult = photo.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {
             const fileId = matchResult[1];
             const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-            return { ...facility, image: newImageUrl };
+            return { ...photo, image: newImageUrl };
           } else {
-            return facility;
+            return photo;
           }
         });
-        setFacilities(newFacilities);
+        newPhotos.sort((a: Gallery, b: Gallery) => a.position - b.position);
+        setPhotos(newPhotos);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -109,7 +110,7 @@ export default function FacilityDashboard() {
       }
     };
 
-    fetchFacilities();
+    fetchPhotos();
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
@@ -176,7 +177,7 @@ export default function FacilityDashboard() {
             <Button
               size="sm"
               onClick={() => {
-                router.push("/admin/facilities/create");
+                router.push("/admin/gallery/create");
               }}
             >
               <PlusSquare className="h-4 w-4 mr-2" />
@@ -185,56 +186,47 @@ export default function FacilityDashboard() {
           </header>
           <div className="flex-1 overflow-auto p-6">
             <div className="grid gap-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {facilities.map((facility, index) => (
-                  <Card key={index} className="w-full max-w-md">
-                    <Image
-                      src={facility.image}
-                      width={400}
-                      height={300}
-                      alt={facility.title}
-                      priority={true}
-                    />
-                    <CardContent className="p-6 space-y-4">
-                      <div className="space-y-2">
-                        <CardTitle>{facility.title}</CardTitle>
-                        <CardDescription>
-                          {facility.description}
-                        </CardDescription>
-                      </div>
-                      <div className="grid gap-4">
-                        <div>
-                          <h3 className="text-lg font-semibold">
-                            Facility Specifications
-                          </h3>
-                          <div className="text-sm">{facility.specs}</div>
+              <div className="grid grid-cols-1 gap-4">
+                {photos.map((photo, index) => (
+                  <Card key={index}>
+                    <CardHeader className="flex flex-col gap-1">
+                      <CardTitle className="text-xl">
+                        {photo.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm/relaxed">
+                      <div className="flex justify-between">
+                        <Image
+                          className="h-auto max-w-full rounded-lg"
+                          src={photo.image}
+                          alt={photo.title}
+                          width={450}
+                          height={250}
+                        />
+                        <div className="flex">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => {
+                              router.push(
+                                `/admin/gallery/update/${photo._id}`
+                              );
+                            }}
+                          >
+                            <Pencil className="h-6 w-6" />
+                            <span className="sr-only">Edit</span>
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            onClick={() => handleDelete(photo._id)}
+                          >
+                            <Trash2 className="h-6 w-6" />
+                            <span className="sr-only">Delete</span>
+                          </Button>
                         </div>
                       </div>
                     </CardContent>
-                    <CardFooter>
-                      <div className="">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => {
-                            router.push(
-                              `/admin/facilities/update/${facility._id}`
-                            );
-                          }}
-                        >
-                          <Pencil className="h-6 w-6" />
-                          <span className="sr-only">Edit</span>
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          onClick={() => handleDelete(facility._id)}
-                        >
-                          <Trash2 className="h-6 w-6" />
-                          <span className="sr-only">Delete</span>
-                        </Button>
-                      </div>
-                    </CardFooter>
                   </Card>
                 ))}
               </div>

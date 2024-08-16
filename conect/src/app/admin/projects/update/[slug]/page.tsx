@@ -26,6 +26,7 @@ const FormSchema = z.object({
   description: z.string().min(1, { message: "This field has to be filled." }),
   image: z.string().min(1, { message: "This field has to be filled." }),
   available: z.string().min(1, { message: "This field has to be filled." }),
+  position: z.coerce.number().min(0, { message: "This field has to be filled." })
 });
 
 export default function UpdateEvent({ params }: { params: { slug: string } }) {
@@ -38,6 +39,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       description: "",
       image: "",
       available: "",
+      position: 0,
     },
   });
 
@@ -55,6 +57,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
             description: projectData.description || "",
             image: projectData.image || "",
             available: String(projectData.available),
+            position: Number(projectData.position) || 0,
           });
         }
       } catch (error) {
@@ -67,10 +70,14 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
 
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
-      console.log(formdata);
+      const updatedData = {
+        ...formdata,
+        position: Number(formdata.position),
+      };
+      console.log(updatedData);
       let response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/update/${params.slug}`,
-        formdata
+        updatedData
       );
       if (response.status === 200) {
         console.log(response.data);
@@ -95,7 +102,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       <Navbar />
       <Form {...form}>
         <form
-          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
+          className="lg:h-[calc(100vh-150px)] bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
@@ -145,38 +152,53 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="available"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Available</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="true" />
-                        </FormControl>
-                        <FormLabel className="font-normal">True</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="false" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          Not Available
-                        </FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2">
+              <FormField
+                control={form.control}
+                name="available"
+                render={({ field }) => (
+                  <FormItem className="space-y-2 text-left">
+                    <FormLabel>Available</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="true" />
+                          </FormControl>
+                          <FormLabel className="font-normal">True</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="false" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Not Available
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="position"
+                render={({ field }) => (
+                  <FormItem className="space-y-2 text-left ml-2">
+                    <FormLabel>Reorder Project on Page - Position</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <Button className="w-full lg:w-1/3" type="submit">
               Update Project
             </Button>

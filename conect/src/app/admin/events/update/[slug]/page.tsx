@@ -29,6 +29,7 @@ const FormSchema = z.object({
   registrationLink: z.string(),
   image: z.string(),
   upcoming: z.string().min(1, { message: "This field has to be filled." }),
+  position: z.coerce.number().min(0, { message: "This field has to be filled." })
 });
 
 export default function UpdateEvent({ params }: { params: { slug: string } }) {
@@ -44,6 +45,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
       registrationLink: "",
       image: "",
       upcoming: "",
+      position: 0,
     },
   });
 
@@ -63,7 +65,8 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
             time: eventData.time || "",
             registrationLink: eventData.registrationLink || "",
             image: eventData.image || "",
-            upcoming: String(eventData.upcoming), // Assuming 'upcoming' is a boolean
+            upcoming: String(eventData.upcoming),
+            position: Number(eventData.position) || 0,
           });
         }
       } catch (error) {
@@ -76,10 +79,15 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
 
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
-      console.log(formdata);
+      const updatedData = {
+        ...formdata,
+        position: Number(formdata.position),
+        upcoming: formdata.upcoming === 'true',
+      };
+      console.log(updatedData);
       let response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/update/${params.slug}`,
-        formdata
+        updatedData
       );
       if (response.status === 200) {
         console.log(response.data);
@@ -195,36 +203,51 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="upcoming"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Upcoming</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="true" />
-                        </FormControl>
-                        <FormLabel className="font-normal">True</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="false" />
-                        </FormControl>
-                        <FormLabel className="font-normal">False</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2">
+              <FormField
+                control={form.control}
+                name="upcoming"
+                render={({ field }) => (
+                  <FormItem className="space-y-2 text-left">
+                    <FormLabel>Upcoming</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="true" />
+                          </FormControl>
+                          <FormLabel className="font-normal">True</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="false" />
+                          </FormControl>
+                          <FormLabel className="font-normal">False</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="position"
+                render={({ field }) => (
+                  <FormItem className="space-y-2 text-left ml-2">
+                    <FormLabel>Reorder Event on Page - Position</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <Button className="w-full lg:w-1/3" type="submit">
               Update Event
             </Button>

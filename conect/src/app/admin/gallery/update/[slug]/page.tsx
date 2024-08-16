@@ -13,48 +13,71 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Navbar from "@/components/navbar";
+import { useEffect } from "react";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
-  authors: z.string().min(1, { message: "This field has to be filled." }),
-  summary: z.string().min(1, { message: "This field has to be filled." }),
-  link: z.string().min(1, { message: "This field has to be filled." }),
+  image: z.string().min(1, { message: "This field has to be filled." }),
   position: z.coerce.number().min(0, { message: "This field has to be filled." })
 });
 
-export default function CreatePublication() {
+export default function UpdateGallery({ params }: { params: { slug: string } }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       title: "",
-      authors: "",
-      summary: "",
-      link: "",
+      image: "",
       position: 0,
     },
   });
 
+  useEffect(() => {
+    console.log(params.slug);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/${params.slug}`
+        );
+        if (response.status === 200) {
+          const photoData = response.data;
+          form.reset({
+            title: photoData.title || "",
+            image: photoData.image || "",
+            position: Number(photoData.position) || 0,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load photo:", error);
+      }
+    };
+
+    fetchData();
+  }, [params.slug, form]);
+
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
-      console.log(formdata);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/publications/create`,
-        formdata
+      const updatedData = {
+        ...formdata,
+        position: Number(formdata.position),
+      };
+      console.log(updatedData);
+      let response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/update/${params.slug}`,
+        updatedData
       );
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log(response.data);
         toast({
-          title: "Created successfully",
+          title: "Updated successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/publications");
+        router.push("/admin/gallery");
       }
     } catch (error) {
       console.log(error);
@@ -71,13 +94,13 @@ export default function CreatePublication() {
       <Navbar />
       <Form {...form}>
         <form
-          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
+          className="lg:h-[calc(100vh-150px)] bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Add a Publication</div>
+            <div className="text-3xl font-bold">Update a Photo</div>
             <p className="text-gray-500 dark:text-gray-400">
-              Enter Publication Details
+              Enter Photo Details
             </p>
             <FormField
               control={form.control}
@@ -94,40 +117,10 @@ export default function CreatePublication() {
             />
             <FormField
               control={form.control}
-              name="authors"
+              name="image"
               render={({ field }) => (
                 <FormItem className="space-y-2 text-left">
-                  <FormLabel>Authors</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Authors and published in can be mentioned here"
-                      wrap="hard"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="summary"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Summary</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Type the summary here" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Link</FormLabel>
+                  <FormLabel>Image Link</FormLabel>
                   <FormControl>
                     <Input type="text" {...field} />
                   </FormControl>
@@ -139,8 +132,8 @@ export default function CreatePublication() {
               control={form.control}
               name="position"
               render={({ field }) => (
-                <FormItem className="space-y-2 text-left">
-                  <FormLabel>Reorder Publication on Page - Position</FormLabel>
+                <FormItem className="space-y-2 text-left ml-2">
+                  <FormLabel>Reorder Photo on Page - Position</FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -149,7 +142,7 @@ export default function CreatePublication() {
               )}
             />
             <Button className="w-full lg:w-1/3" type="submit">
-              Add Publication
+              Update Photo
             </Button>
           </div>
         </form>

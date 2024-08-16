@@ -6,7 +6,7 @@ export default function About() {
   const details1: details = {
     name: "Vyoman Jain",
     role: "CSE, PESU ECC 2022-26",
-    image: "https://www.github.com/VyoJ.png",
+    image: "/vyoman.jpg",
     description: "",
     category: "Developer",
     link: "https://www.github.com/VyoJ",
@@ -14,7 +14,7 @@ export default function About() {
   const details2: details = {
     name: "Vishva Mehta",
     role: "CSE, PESU ECC 2022-26",
-    image: "https://www.github.com/vishva7.png",
+    image: "/vishva.jpg",
     description: "",
     category: "Developer",
     link: "https://www.github.com/vishva7",
@@ -22,7 +22,7 @@ export default function About() {
   const details3: details = {
     name: "Samarth P",
     role: "CSE, PESU ECC 2022-26",
-    image: "https://www.github.com/samarth777.png",
+    image: "/samarth.jpeg",
     description: "",
     category: "Developer",
     link: "https://www.github.com/samarth777",

@@ -28,6 +28,7 @@ router.post("/create", async (req, res) => {
     authors: req.body.authors,
     summary: req.body.summary,
     link: req.body.link,
+    position: Number(req.body.position),
   });
   try {
     let savedPublication = await publication.save();
