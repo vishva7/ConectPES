@@ -105,23 +105,6 @@ export default function EventsPage() {
           </Card>
         ))}
       </div>
-      <hr className="w-[40%] h-1 mx-auto my-4 bg-muted border-0 rounded"></hr>
-      <h1 className="font-bold text-3xl text-center mb-4">INAUGURATION</h1>
-      <Image
-        src="/inauguration.png"
-        alt="Inauguration Pic"
-        width={800}
-        height={1000}
-        className="mx-auto mb-4"
-      />
-      <div className="w-[80%] text-center mx-auto text-lg mb-4">
-        <p className="mb-2">
-          Inauguration of CONECT was done by Pro Vice Chancellor Prof. Nagarjuna
-          Sadineni in presence of principal Dr. Subhas Kulkarni, ECE chairperson
-          Dr. Ajey SNR and Mr A Rajendra Kumar (ISRO).
-        </p>
-        <p>On 3rd November, 2023 at 11:30am</p>
-      </div>
     </>
   );
 }
