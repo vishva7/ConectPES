@@ -30,7 +30,7 @@ import {
   Trash2,
   Home,
   FileImage,
-  FileBadge
+  FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
 import axios from "axios";
@@ -48,11 +48,12 @@ const tabsData = [
   { id: "home", icon: <Home />, label: "Home" },
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
+  { id: "achievements", icon: <Calendar />, label: "Achievements" },
   { id: "members", icon: <Users />, label: "Members" },
   { id: "facilities", icon: <Cable />, label: "Facilities" },
   { id: "publications", icon: <Library />, label: "Publications" },
   { id: "gallery", icon: <FileImage />, label: "Gallery" },
-  { id: "certificates", icon: <FileBadge />, label: "Certificates" }
+  { id: "certificates", icon: <FileBadge />, label: "Certificates" },
 ];
 
 export default function PeopleDashboard() {
@@ -93,7 +94,9 @@ export default function PeopleDashboard() {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/publications/all`
         );
         let newPublications = response.data;
-        newPublications.sort((a: Publication, b: Publication) => a.position - b.position);
+        newPublications.sort(
+          (a: Publication, b: Publication) => a.position - b.position
+        );
         setPublications(newPublications);
         setIsLoading(false);
       } catch (error) {
@@ -138,7 +141,9 @@ export default function PeopleDashboard() {
                 <DropdownMenuItem>My Account</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </header>

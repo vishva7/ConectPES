@@ -16,9 +16,10 @@ export default function Navbar() {
     { title: "Facilities", path: "/facilities" },
     { title: "Projects", path: "/projects" },
     { title: "Events", path: "/events" },
+    { title: "Achievements", path: "/achievements" },
     { title: "Publications", path: "/publications" },
     { title: "Contact", path: "/contact" },
-    { title: "Gallery", path: "/gallery" }
+    { title: "Gallery", path: "/gallery" },
   ];
 
   return (
@@ -38,8 +39,9 @@ export default function Navbar() {
           </div>
         </div>
         <div
-          className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${state ? "block" : "hidden"
-            }`}
+          className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+            state ? "block" : "hidden"
+          }`}
         >
           <ul className="justify-end items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
             {menus.map((item, idx) => (

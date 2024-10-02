@@ -29,7 +29,7 @@ import {
   Trash2,
   Home,
   FileImage,
-  FileBadge
+  FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -46,11 +46,12 @@ const tabsData = [
   { id: "home", icon: <Home />, label: "Home" },
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
+  { id: "achievements", icon: <Calendar />, label: "Achievements" },
   { id: "members", icon: <Users />, label: "Members" },
   { id: "facilities", icon: <Cable />, label: "Facilities" },
   { id: "publications", icon: <Library />, label: "Publications" },
   { id: "gallery", icon: <FileImage />, label: "Gallery" },
-  { id: "certificates", icon: <FileBadge />, label: "Certificates" }
+  { id: "certificates", icon: <FileBadge />, label: "Certificates" },
 ];
 
 export default function GalleryDashboard() {
@@ -66,11 +67,7 @@ export default function GalleryDashboard() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/delete/${photoId}`
       );
       if (response.status === 200) {
-        setPhotos(
-          photos.filter(
-            (photo) => photo._id !== photoId
-          )
-        );
+        setPhotos(photos.filter((photo) => photo._id !== photoId));
       } else {
         console.error("Failed to delete photo");
       }
@@ -145,7 +142,9 @@ export default function GalleryDashboard() {
                 <DropdownMenuItem>My Account</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
@@ -190,9 +189,7 @@ export default function GalleryDashboard() {
                 {photos.map((photo, index) => (
                   <Card key={index}>
                     <CardHeader className="flex flex-col gap-1">
-                      <CardTitle className="text-xl">
-                        {photo.title}
-                      </CardTitle>
+                      <CardTitle className="text-xl">{photo.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="text-sm/relaxed">
                       <div className="flex justify-between">
@@ -208,9 +205,7 @@ export default function GalleryDashboard() {
                             variant="ghost"
                             size="icon"
                             onClick={() => {
-                              router.push(
-                                `/admin/gallery/update/${photo._id}`
-                              );
+                              router.push(`/admin/gallery/update/${photo._id}`);
                             }}
                           >
                             <Pencil className="h-6 w-6" />

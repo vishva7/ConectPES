@@ -13,6 +13,7 @@ const homeRoutes = require("./routes/homeRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
+const achievementRoutes = require("./routes/achievementRoutes");
 
 const app = express();
 const PORT = 10000;
@@ -42,4 +43,11 @@ app.use("/home", homeRoutes);
 app.use("/contact", contactRoutes);
 app.use("/gallery", galleryRoutes);
 app.use("/certificates", certificateRoutes);
+app.use("/achievements", achievementRoutes);
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+// To Fix:
+// Middleware and JWT
+// Clean up redundant code
+// Use date instead of string in schemas and frontend input
+// Abstract frontend to reuse components
