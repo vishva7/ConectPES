@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
-let achievementSchema = new Schema({
+let accomplishmentSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   date: { type: String, required: true },
@@ -9,4 +9,4 @@ let achievementSchema = new Schema({
   position: { type: Number, required: true },
 });
 
-module.exports = mongoose.model("Achievement", achievementSchema);
+module.exports = mongoose.model("Accomplishment", accomplishmentSchema);

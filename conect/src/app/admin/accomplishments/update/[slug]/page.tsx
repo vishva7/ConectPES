@@ -30,7 +30,7 @@ const FormSchema = z.object({
     .min(0, { message: "This field has to be filled." }),
 });
 
-export default function UpdateAchievement({
+export default function UpdateAccomplishment({
   params,
 }: {
   params: { slug: string };
@@ -53,7 +53,7 @@ export default function UpdateAchievement({
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/achievements/${params.slug}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/${params.slug}`
         );
         if (response.status === 200) {
           const eventData = response.data;
@@ -81,7 +81,7 @@ export default function UpdateAchievement({
       };
       console.log(updatedData);
       let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/achievements/update/${params.slug}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/update/${params.slug}`,
         updatedData
       );
       if (response.status === 200) {
@@ -90,7 +90,7 @@ export default function UpdateAchievement({
           title: "Updated successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/achievements");
+        router.push("/admin/accomplishments");
       }
     } catch (error) {
       console.log(error);
@@ -107,13 +107,13 @@ export default function UpdateAchievement({
       <Navbar />
       <Form {...form}>
         <form
-          className="bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
+          className="min-h-[calc(100vh-150px)] bg-purp-dark flex flex-col gap-4 items-center justify-center p-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Update an Achievement</div>
+            <div className="text-3xl font-bold">Update an Accomplishment</div>
             <p className="text-gray-500 dark:text-gray-400">
-              Enter Achievement Details
+              Enter Accomplishment Details
             </p>
             <FormField
               control={form.control}
@@ -164,7 +164,7 @@ export default function UpdateAchievement({
                 render={({ field }) => (
                   <FormItem className="space-y-2 text-left ml-2">
                     <FormLabel>
-                      Reorder Achievement on Page - Position
+                      Reorder Accomplishment on Page - Position
                     </FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
@@ -189,7 +189,7 @@ export default function UpdateAchievement({
             />
             <div className="grid grid-cols-2"></div>
             <Button className="w-full lg:w-1/3" type="submit">
-              Update Achievement
+              Update Accomplishment
             </Button>
           </div>
         </form>

@@ -44,7 +44,7 @@ const tabsData = [
   { id: "home", icon: <Home />, label: "Home" },
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
-  { id: "achievements", icon: <Calendar />, label: "Achievements" },
+  { id: "accomplishments", icon: <Calendar />, label: "Accomplishments" },
   { id: "members", icon: <Users />, label: "Members" },
   { id: "facilities", icon: <Cable />, label: "Facilities" },
   { id: "publications", icon: <Library />, label: "Publications" },

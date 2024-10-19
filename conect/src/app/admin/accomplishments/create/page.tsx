@@ -29,7 +29,7 @@ const FormSchema = z.object({
     .min(0, { message: "This field has to be filled." }),
 });
 
-export default function CreateAchievement() {
+export default function CreateAccomplishment() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -47,7 +47,7 @@ export default function CreateAchievement() {
     try {
       console.log(formdata);
       let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/achievements/create`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/create`,
         formdata
       );
       if (response.status === 201) {
@@ -56,7 +56,7 @@ export default function CreateAchievement() {
           title: "Created successfully",
           description: "Redirecting...",
         });
-        router.push("/admin/achievements");
+        router.push("/admin/accomplishments");
       }
     } catch (error) {
       console.log(error);
@@ -77,9 +77,9 @@ export default function CreateAchievement() {
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4 text-center w-full max-w-[400px] lg:max-w-[800px]">
-            <div className="text-3xl font-bold">Add an Achievement</div>
+            <div className="text-3xl font-bold">Add an Accomplishment</div>
             <p className="text-gray-500 dark:text-gray-400">
-              Enter Achievement Details
+              Enter Accomplishment Details
             </p>
             <FormField
               control={form.control}
@@ -142,7 +142,9 @@ export default function CreateAchievement() {
                 name="position"
                 render={({ field }) => (
                   <FormItem className="space-y-2 text-left ml-2">
-                    <FormLabel>Reorder Achievement on Page - Position</FormLabel>
+                    <FormLabel>
+                      Reorder Accomplishment on Page - Position
+                    </FormLabel>
                     <FormControl>
                       <Input type="number" placeholder="0" {...field} />
                     </FormControl>
@@ -152,7 +154,7 @@ export default function CreateAchievement() {
               />
             </div>
             <Button className="w-full lg:w-1/3" type="submit">
-              Add Achievement
+              Add Accomplishment
             </Button>
           </div>
         </form>

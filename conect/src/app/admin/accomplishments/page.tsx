@@ -36,7 +36,7 @@ import { notFound, useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 
-interface achievements {
+interface accomplishments {
   _id: string;
   title: string;
   description: string;
@@ -49,7 +49,7 @@ const tabsData = [
   { id: "home", icon: <Home />, label: "Home" },
   { id: "projects", icon: <FolderOpenDotIcon />, label: "Projects" },
   { id: "events", icon: <Calendar />, label: "Events" },
-  { id: "achievements", icon: <Calendar />, label: "Achievements" },
+  { id: "accomplishments", icon: <Calendar />, label: "Accomplishments" },
   { id: "members", icon: <Users />, label: "Members" },
   { id: "facilities", icon: <Cable />, label: "Facilities" },
   { id: "publications", icon: <Library />, label: "Publications" },
@@ -57,9 +57,9 @@ const tabsData = [
   { id: "certificates", icon: <FileBadge />, label: "Certificates" },
 ];
 
-export default function AchievementDashboard() {
-  const [activeTab, setActiveTab] = useState("achievements");
-  const [achievements, setEvents] = useState<achievements[]>([]);
+export default function AccomplishmentDashboard() {
+  const [activeTab, setActiveTab] = useState("accomplishments");
+  const [accomplishments, setEvents] = useState<accomplishments[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const router = useRouter();
@@ -67,19 +67,19 @@ export default function AchievementDashboard() {
   const handleDelete = async (achievementId: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/achievements/delete/${achievementId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/delete/${achievementId}`
       );
       if (response.status === 200) {
         setEvents(
-          achievements.filter(
-            (achievement) => achievement._id !== achievementId
+          accomplishments.filter(
+            (accomplishment) => accomplishment._id !== achievementId
           )
         );
       } else {
-        console.error("Failed to delete achievement");
+        console.error("Failed to delete accomplishment");
       }
     } catch (error) {
-      console.error("Error deleting achievement:", error);
+      console.error("Error deleting accomplishment:", error);
     }
   };
 
@@ -92,20 +92,20 @@ export default function AchievementDashboard() {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/achievements/all`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/all`
         );
-        let newEvents = response.data.map((achievement: achievements) => {
-          const matchResult = achievement.image.match(/file\/d\/(.*?)\//);
+        let newEvents = response.data.map((accomplishment: accomplishments) => {
+          const matchResult = accomplishment.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {
             const fileId = matchResult[1];
             const newImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-            return { ...achievement, image: newImageUrl };
+            return { ...accomplishment, image: newImageUrl };
           } else {
-            return achievement;
+            return accomplishment;
           }
         });
         newEvents.sort(
-          (a: achievements, b: achievements) => a.position - b.position
+          (a: accomplishments, b: accomplishments) => a.position - b.position
         );
         setEvents(newEvents);
         setIsLoading(false);
@@ -185,7 +185,7 @@ export default function AchievementDashboard() {
             <Button
               size="sm"
               onClick={() => {
-                router.push("/admin/achievements/create");
+                router.push("/admin/accomplishments/create");
               }}
             >
               <PlusSquare className="h-4 w-4 mr-2" />
@@ -195,14 +195,14 @@ export default function AchievementDashboard() {
           <div className="flex-1 overflow-auto p-6">
             <div className="grid gap-6">
               <div className="grid grid-cols-1 gap-4">
-                {achievements.map((achievement, index) => (
+                {accomplishments.map((accomplishment, index) => (
                   <Card
                     key={index}
                     className="w-full grid grid-cols-1 lg:grid-cols-3 border-2 p-4"
                   >
                     <Image
-                      src={achievement.image}
-                      alt={achievement.title}
+                      src={accomplishment.image}
+                      alt={accomplishment.title}
                       height={450}
                       width={400}
                       className="place-self-center"
@@ -211,16 +211,16 @@ export default function AchievementDashboard() {
                     <div className="col-span-2">
                       <CardHeader>
                         <CardTitle className="mb-2">
-                          {achievement.title}
+                          {accomplishment.title}
                         </CardTitle>
                         <CardDescription className="text-lg">
-                          {achievement.description}
+                          {accomplishment.description}
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
                         <p className="mb-1">
                           <span className="font-semibold"> Date: </span>{" "}
-                          {achievement.date}
+                          {accomplishment.date}
                         </p>
                       </CardContent>
                       <CardFooter className="flex justify-between">
@@ -230,7 +230,7 @@ export default function AchievementDashboard() {
                             size="icon"
                             onClick={() => {
                               router.push(
-                                `/admin/achievements/update/${achievement._id}`
+                                `/admin/accomplishments/update/${accomplishment._id}`
                               );
                             }}
                           >
@@ -240,7 +240,7 @@ export default function AchievementDashboard() {
                           <Button
                             variant="destructive"
                             size="icon"
-                            onClick={() => handleDelete(achievement._id)}
+                            onClick={() => handleDelete(accomplishment._id)}
                           >
                             <Trash2 className="h-6 w-6" />
                             <span className="sr-only">Delete</span>

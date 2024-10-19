@@ -16,7 +16,7 @@ export default function Navbar() {
     { title: "Facilities", path: "/facilities" },
     { title: "Projects", path: "/projects" },
     { title: "Events", path: "/events" },
-    { title: "Achievements", path: "/achievements" },
+    { title: "Accomplishments", path: "/accomplishments" },
     { title: "Publications", path: "/publications" },
     { title: "Contact", path: "/contact" },
     { title: "Gallery", path: "/gallery" },

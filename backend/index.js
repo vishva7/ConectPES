@@ -13,7 +13,7 @@ const homeRoutes = require("./routes/homeRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
-const achievementRoutes = require("./routes/achievementRoutes");
+const accomplishmentRoutes = require("./routes/accomplishmentRoutes");
 
 const app = express();
 const PORT = 10000;
@@ -43,7 +43,7 @@ app.use("/home", homeRoutes);
 app.use("/contact", contactRoutes);
 app.use("/gallery", galleryRoutes);
 app.use("/certificates", certificateRoutes);
-app.use("/achievements", achievementRoutes);
+app.use("/accomplishments", accomplishmentRoutes);
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // To Fix:
