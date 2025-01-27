@@ -3,20 +3,20 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const userRoutes = require("./routes/userRoutes");
-const eventRoutes = require("./routes/eventRoutes");
-const projectRoutes = require("./routes/projectRoutes");
-const facilitiesRoutes = require("./routes/facilitiesRoutes");
-const publicationRoutes = require("./routes/publicationRoutes");
-const peopleRoutes = require("./routes/peopleRoutes");
-const homeRoutes = require("./routes/homeRoutes");
-const contactRoutes = require("./routes/contactRoutes");
-const galleryRoutes = require("./routes/galleryRoutes");
-const certificateRoutes = require("./routes/certificateRoutes");
-const accomplishmentRoutes = require("./routes/accomplishmentRoutes");
+const userRoutes = require("../routes/userRoutes");
+const eventRoutes = require("../routes/eventRoutes");
+const projectRoutes = require("../routes/projectRoutes");
+const facilitiesRoutes = require("../routes/facilitiesRoutes");
+const publicationRoutes = require("../routes/publicationRoutes");
+const peopleRoutes = require("../routes/peopleRoutes");
+const homeRoutes = require("../routes/homeRoutes");
+const contactRoutes = require("../routes/contactRoutes");
+const galleryRoutes = require("../routes/galleryRoutes");
+const certificateRoutes = require("../routes/certificateRoutes");
+const accomplishmentRoutes = require("../routes/accomplishmentRoutes");
 
 const app = express();
-const PORT = 10000;
+const PORT = 8000;
 
 const connectToDb = async () => {
   try {
@@ -31,6 +31,10 @@ connectToDb();
 app.use(express.json());
 express.json();
 app.use(cors());
+
+app.get("/", (req, res) => {
+  res.send("Working!");
+});
 
 app.use(bodyParser.json());
 app.use("/auth", userRoutes);
@@ -51,3 +55,5 @@ app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 // Clean up redundant code
 // Use date instead of string in schemas and frontend input
 // Abstract frontend to reuse components
+
+module.exports = app;
