@@ -25,7 +25,12 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home/all`)
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home/all`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
         const data = response.data.map((item: CarouselData) => {
           const matchResult = item.image.match(/file\/d\/(.*?)\//);
