@@ -29,10 +29,7 @@ const connectToDb = async () => {
 connectToDb();
 
 const corsOptions = {
-  origin:
-    process.env.FRONTEND_URL ||
-    "https://conect-pes-tawny.vercel.app" ||
-    "http://localhost:3000",
+  origin: "http://localhost:3000",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
     "Origin",
