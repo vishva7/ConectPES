@@ -28,9 +28,26 @@ const connectToDb = async () => {
 };
 connectToDb();
 
+const corsOptions = {
+  origin:
+    process.env.FRONTEND_URL ||
+    "https://conect-pes-tawny.vercel.app" ||
+    "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+  ],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 express.json();
-app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Working!");
