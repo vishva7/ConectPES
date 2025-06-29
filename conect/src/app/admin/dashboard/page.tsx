@@ -20,7 +20,9 @@ import {
   FileImage,
   FileBadge,
 } from "lucide-react";
-import { useRouter, notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
+import WithAdminAuth from "@/components/WithAdminAuth";
+import { authAPI } from "@/lib/auth";
 
 const tabsData = [
   { id: "home", icon: <Home />, label: "Home" },
@@ -38,20 +40,19 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("");
   const router = useRouter();
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
+  const handleLogout = async () => {
+    try {
+      await authAPI.logout();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Still redirect even if logout fails
+      router.push("/");
+    }
+  };
 
-  function handleLogout() {
-    localStorage.clear();
-    router.push("/");
-  }
-
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -108,6 +109,6 @@ export default function AdminDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Certificate = require("../models/certificateSchema");
+const { authenticateToken, requireAdmin } = require("../middleware/auth");
 
 router.get("/all", async (req, res) => {
   try {
@@ -26,7 +27,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, requireAdmin, async (req, res) => {
   let certificate = new Certificate({
     title: req.body.title,
     link: req.body.link,
@@ -40,7 +41,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     const deletedCertificate = await Certificate.findByIdAndDelete(
@@ -55,7 +56,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     console.log(req.body);

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Contact = require("../models/contactSchema");
+const { authenticateToken, requireAdmin } = require("../middleware/auth");
 
 router.get("/all", async (req, res) => {
   try {
@@ -12,7 +13,7 @@ router.get("/all", async (req, res) => {
   }
 });
 
-router.put("/update", async (req, res) => {
+router.put("/update", authenticateToken, requireAdmin, async (req, res) => {
   try {
     const currentContact = await Contact.findOne({});
     const updatedContact = await Contact.findOneAndUpdate(

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Accomplishment = require("../models/accomplishmentSchema");
+const { authenticateToken, requireAdmin } = require("../middleware/auth");
 
 router.get("/all", async (req, res) => {
   try {
@@ -23,7 +24,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, requireAdmin, async (req, res) => {
   let accomplishment = new Accomplishment({
     title: req.body.title,
     description: req.body.description,
@@ -40,7 +41,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     const deletedAccomplishment = await Accomplishment.findByIdAndDelete(
@@ -55,7 +56,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     console.log(req.body);

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const People = require("../models/peopleSchema");
+const { authenticateToken, requireAdmin } = require("../middleware/auth");
 
 router.get("/all", async (req, res) => {
   try {
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, requireAdmin, async (req, res) => {
   let person = new People({
     name: req.body.name,
     role: req.body.role,
@@ -40,7 +41,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     const deletedPerson = await People.findByIdAndDelete(req.params.id);
@@ -53,7 +54,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     const updatedPerson = await People.findByIdAndUpdate(

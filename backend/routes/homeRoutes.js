@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Home = require("../models/homeSchema");
+const { authenticateToken, requireAdmin } = require("../middleware/auth");
 
 router.get("/all", async (req, res) => {
   try {
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, requireAdmin, async (req, res) => {
   let home_post = new Home({
     title: req.body.title,
     description: req.body.description,
@@ -37,7 +38,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     const deletedHome = await Home.findByIdAndDelete(req.params.id);
@@ -50,7 +51,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", authenticateToken, requireAdmin, async (req, res) => {
   try {
     console.log(req.params.id);
     const updatedHome = await Home.findByIdAndUpdate(req.params.id, req.body);

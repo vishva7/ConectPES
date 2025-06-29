@@ -16,7 +16,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/navbar";
-import axios from "axios";
+import { authAPI } from "@/lib/auth";
 
 const FormSchema = z.object({
   email: z
@@ -39,33 +39,24 @@ export default function SignIn() {
 
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
-      // let response = await signIn(formdata);
-      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
-      console.log(process.env);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-        {
-          email: formdata.email,
-          password: formdata.password,
-        }
-      );
-      if (response.status === 200) {
-        toast({
-          title: "Authenticated successfully!",
-          description: "Welcome Professor!",
-          className: "border-2 border-green-600",
-        });
-        localStorage.setItem("user", "admin");
-        router.push("/admin/dashboard");
-      } else {
-        toast({
-          title: "Uh-oh!",
-          description: response.data,
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.log(error);
+      const response = await authAPI.login({
+        email: formdata.email,
+        password: formdata.password,
+      });
+      
+      toast({
+        title: "Authenticated successfully!",
+        description: "Welcome Professor!",
+        className: "border-2 border-green-600",
+      });
+      
+      router.push("/admin/dashboard");
+    } catch (error: any) {
+      toast({
+        title: "Uh-oh!",
+        description: error.response?.data?.error || "Authentication failed",
+        variant: "destructive",
+      });
     }
   }
 
