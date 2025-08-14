@@ -16,8 +16,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
+import adminAPI from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -46,10 +47,7 @@ export default function CreateAccomplishment() {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/create`,
-        formdata
-      );
+      let response = await adminAPI.accomplishments.create(formdata);
       if (response.status === 201) {
         console.log(response.data);
         toast({
@@ -69,7 +67,7 @@ export default function CreateAccomplishment() {
   }
 
   return (
-    <>
+    <WithAdminAuth>
       <Navbar />
       <Form {...form}>
         <form
@@ -159,6 +157,6 @@ export default function CreateAccomplishment() {
           </div>
         </form>
       </Form>
-    </>
+    </WithAdminAuth>
   );
 }

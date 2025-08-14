@@ -33,7 +33,8 @@ import {
   FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import axios from "axios";
+import { adminAPI } from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 interface Publication {
   _id: string;
@@ -65,9 +66,7 @@ export default function PeopleDashboard() {
 
   const handleDelete = async (publicationId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/publications/delete/${publicationId}`
-      );
+      const response = await adminAPI.publications.delete(publicationId);
       if (response.status === 200) {
         setPublications(
           publications.filter(
@@ -90,9 +89,7 @@ export default function PeopleDashboard() {
   useEffect(() => {
     const fetchPeople = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/publications/all`
-        );
+        const response = await adminAPI.publications.getAll();
         let newPublications = response.data;
         newPublications.sort(
           (a: Publication, b: Publication) => a.position - b.position
@@ -112,14 +109,8 @@ export default function PeopleDashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -238,6 +229,6 @@ export default function PeopleDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

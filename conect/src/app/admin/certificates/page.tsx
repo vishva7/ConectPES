@@ -32,7 +32,8 @@ import {
   FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import axios from "axios";
+import { adminAPI } from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 interface Certificates {
   _id: string;
@@ -66,9 +67,7 @@ export default function CertificatesDashboard() {
 
   const handleDelete = async (certificateId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/certificates/delete/${certificateId}`
-      );
+      const response = await adminAPI.certificates.delete(certificateId);
       if (response.status === 200) {
         setCertificates(
           certificates.filter(
@@ -86,9 +85,7 @@ export default function CertificatesDashboard() {
   useEffect(() => {
     const fetchCertificates = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/certificates/all`
-        );
+        const response = await adminAPI.certificates.getAll();
         setCertificates(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -104,14 +101,8 @@ export default function CertificatesDashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -226,6 +217,6 @@ export default function CertificatesDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

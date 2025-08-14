@@ -35,6 +35,8 @@ import {
 import { notFound, useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
+import { adminAPI } from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 interface facilities {
   _id: string;
@@ -65,9 +67,7 @@ export default function FacilityDashboard() {
 
   const handleDelete = async (facilityId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/facilities/delete/${facilityId}`
-      );
+      const response = await adminAPI.facilities.delete(facilityId);
       if (response.status === 200) {
         setFacilities(
           facilities.filter((facility) => facility._id !== facilityId)
@@ -88,9 +88,7 @@ export default function FacilityDashboard() {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/facilities/all`
-        );
+        const response = await adminAPI.facilities.getAll();
         let newFacilities = response.data.map((facility: facilities) => {
           const matchResult = facility.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {
@@ -116,14 +114,8 @@ export default function FacilityDashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -245,6 +237,6 @@ export default function FacilityDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

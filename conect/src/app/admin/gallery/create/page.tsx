@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
+import { adminAPI } from "@/lib/adminAPI";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -39,10 +39,7 @@ export default function CreateGallery() {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/create`,
-        formdata
-      );
+      let response = await adminAPI.gallery.create(formdata);
       if (response.status === 201) {
         console.log(response.data);
         toast({

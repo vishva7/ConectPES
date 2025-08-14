@@ -32,8 +32,9 @@ import {
   FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
+import { adminAPI } from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 interface homePost {
   _id: string;
@@ -63,9 +64,7 @@ export default function HomeDashboard() {
 
   const handleDelete = async (homeId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/home/delete/${homeId}`
-      );
+      const response = await adminAPI.home.delete(homeId);
       if (response.status === 200) {
         setHome(home.filter((home) => home._id !== homeId));
       } else {
@@ -84,9 +83,7 @@ export default function HomeDashboard() {
   useEffect(() => {
     const fetchHome = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/home/all`
-        );
+        const response = await adminAPI.home.getAll();
         let newHomePosts = response.data.map((home: homePost) => {
           const matchResult = home.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {
@@ -112,14 +109,8 @@ export default function HomeDashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -229,6 +220,6 @@ export default function HomeDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

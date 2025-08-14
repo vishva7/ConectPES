@@ -16,15 +16,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
+import { adminAPI } from "@/lib/adminAPI";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -57,9 +55,7 @@ export default function UpdateMember({ params }: { params: { slug: string } }) {
     console.log(params.slug);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/${params.slug}`
-        );
+        const response = await adminAPI.people.getById(params.slug);
         if (response.status === 200) {
           const personData = response.data;
           form.reset({
@@ -82,10 +78,7 @@ export default function UpdateMember({ params }: { params: { slug: string } }) {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log("formdata", formdata);
-      let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/update/${params.slug}`,
-        formdata
-      );
+      let response = await adminAPI.people.update(params.slug, formdata);
       if (response.status === 200) {
         console.log(response.data);
         toast({

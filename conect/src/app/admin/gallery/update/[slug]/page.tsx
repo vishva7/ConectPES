@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
+import { adminAPI } from "@/lib/adminAPI";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -41,9 +41,7 @@ export default function UpdateGallery({ params }: { params: { slug: string } }) 
     console.log(params.slug);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/${params.slug}`
-        );
+        const response = await adminAPI.gallery.getById(params.slug);
         if (response.status === 200) {
           const photoData = response.data;
           form.reset({
@@ -67,10 +65,7 @@ export default function UpdateGallery({ params }: { params: { slug: string } }) 
         position: Number(formdata.position),
       };
       console.log(updatedData);
-      let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/gallery/update/${params.slug}`,
-        updatedData
-      );
+      let response = await adminAPI.gallery.update(params.slug, updatedData);
       if (response.status === 200) {
         console.log(response.data);
         toast({

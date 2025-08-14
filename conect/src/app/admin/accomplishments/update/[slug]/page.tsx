@@ -16,9 +16,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
+import adminAPI from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -52,9 +53,7 @@ export default function UpdateAccomplishment({
     console.log(params.slug);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/${params.slug}`
-        );
+        const response = await adminAPI.accomplishments.getById(params.slug);
         if (response.status === 200) {
           const eventData = response.data;
           form.reset({
@@ -80,10 +79,7 @@ export default function UpdateAccomplishment({
         position: Number(formdata.position),
       };
       console.log(updatedData);
-      let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/update/${params.slug}`,
-        updatedData
-      );
+      let response = await adminAPI.accomplishments.update(params.slug, updatedData);
       if (response.status === 200) {
         console.log(response.data);
         toast({

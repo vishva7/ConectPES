@@ -16,9 +16,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
+import { adminAPI } from "@/lib/adminAPI";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -42,9 +42,7 @@ export default function UpdateHome({ params }: { params: { slug: string } }) {
     console.log(params.slug);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/home/${params.slug}`
-        );
+        const response = await adminAPI.home.getById(params.slug);
         if (response.status === 200) {
           const homeData = response.data;
           form.reset({
@@ -64,10 +62,7 @@ export default function UpdateHome({ params }: { params: { slug: string } }) {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/home/update/${params.slug}`,
-        formdata
-      );
+      let response = await adminAPI.home.update(params.slug, formdata);
       if (response.status === 200) {
         console.log(response.data);
         toast({

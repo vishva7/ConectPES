@@ -13,10 +13,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
   CardFooter,
 } from "@/components/ui/Card";
 import {
@@ -33,8 +29,9 @@ import {
   FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
+import { adminAPI } from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 interface People {
   _id: string;
@@ -67,16 +64,14 @@ export default function PeopleDashboard() {
 
   const handleDelete = async (personId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/delete/${personId}`
-      );
+      const response = await adminAPI.people.delete(personId);
       if (response.status === 200) {
         setPeople(people.filter((person) => person._id !== personId));
       } else {
-        console.error("Failed to delete event");
+        console.error("Failed to delete person");
       }
     } catch (error) {
-      console.error("Error deleting event:", error);
+      console.error("Error deleting person:", error);
     }
   };
 
@@ -88,9 +83,7 @@ export default function PeopleDashboard() {
   useEffect(() => {
     const fetchPeople = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/all`
-        );
+        const response = await adminAPI.people.getAll();
         let newPeople = response.data.map((person: People) => {
           const matchResult = person.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {
@@ -116,14 +109,8 @@ export default function PeopleDashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -250,6 +237,6 @@ export default function PeopleDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

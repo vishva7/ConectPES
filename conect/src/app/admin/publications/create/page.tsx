@@ -16,7 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { adminAPI } from "@/lib/adminAPI";
 import Navbar from "@/components/navbar";
 
 const FormSchema = z.object({
@@ -44,10 +44,7 @@ export default function CreatePublication() {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/publications/create`,
-        formdata
-      );
+      let response = await adminAPI.publications.create(formdata);
       if (response.status === 201) {
         console.log(response.data);
         toast({

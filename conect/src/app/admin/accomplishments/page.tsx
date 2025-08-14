@@ -33,8 +33,9 @@ import {
   FileBadge,
 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
+import adminAPI from "@/lib/adminAPI";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 interface accomplishments {
   _id: string;
@@ -66,9 +67,7 @@ export default function AccomplishmentDashboard() {
 
   const handleDelete = async (achievementId: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/delete/${achievementId}`
-      );
+      const response = await adminAPI.accomplishments.delete(achievementId);
       if (response.status === 200) {
         setEvents(
           accomplishments.filter(
@@ -91,9 +90,7 @@ export default function AccomplishmentDashboard() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/accomplishments/all`
-        );
+        const response = await adminAPI.accomplishments.getAll();
         let newEvents = response.data.map((accomplishment: accomplishments) => {
           const matchResult = accomplishment.image.match(/file\/d\/(.*?)\//);
           if (matchResult) {
@@ -122,14 +119,8 @@ export default function AccomplishmentDashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("user");
-  }
-  if (user != "admin") {
-    notFound();
-  } else {
-    return (
+  return (
+    <WithAdminAuth>
       <div className="grid min-h-screen w-full grid-cols-[260px_1fr] bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-950">
           <header className="flex h-16 items-center justify-between border-b px-6 dark:border-gray-800">
@@ -255,6 +246,6 @@ export default function AccomplishmentDashboard() {
           </div>
         </main>
       </div>
-    );
-  }
+    </WithAdminAuth>
+  );
 }

@@ -16,26 +16,15 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Navbar from "@/components/navbar";
+import { adminAPI } from "@/lib/adminAPI";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-interface People {
-  name: string;
-  role: string;
-  image: string;
-  description: string;
-  category: string;
-  link: string;
-}
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "This field has to be filled." }),
@@ -64,10 +53,7 @@ export default function CreateMember() {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/people/create`,
-        formdata
-      );
+      let response = await adminAPI.people.create(formdata);
       if (response.status === 201) {
         console.log(response.data);
         toast({

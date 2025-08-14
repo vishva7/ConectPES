@@ -17,9 +17,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import axios from "axios";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
+import { adminAPI } from "@/lib/adminAPI";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -53,9 +53,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
     console.log(params.slug);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/${params.slug}`
-        );
+        const response = await adminAPI.events.getById(params.slug);
         if (response.status === 200) {
           const eventData = response.data;
           form.reset({
@@ -85,10 +83,7 @@ export default function UpdateEvent({ params }: { params: { slug: string } }) {
         upcoming: formdata.upcoming === 'true',
       };
       console.log(updatedData);
-      let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/events/update/${params.slug}`,
-        updatedData
-      );
+      let response = await adminAPI.events.update(params.slug, updatedData);
       if (response.status === 200) {
         console.log(response.data);
         toast({

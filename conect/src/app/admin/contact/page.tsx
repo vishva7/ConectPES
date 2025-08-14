@@ -16,9 +16,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { adminAPI } from "@/lib/adminAPI";
 import Navbar from "@/components/navbar";
 import { useEffect } from "react";
+import WithAdminAuth from "@/components/WithAdminAuth";
 
 const FormSchema = z.object({
   email: z.string().min(1, { message: "This field has to be filled." }),
@@ -41,9 +42,7 @@ export default function UpdateContact() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/all`
-        );
+        const response = await adminAPI.contact.get();
         console.log(response)
         if (response.status === 200) {
           const contactData = response.data[0];
@@ -64,10 +63,7 @@ export default function UpdateContact() {
   async function onSubmit(formdata: z.infer<typeof FormSchema>) {
     try {
       console.log(formdata);
-      let response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/update`,
-        formdata
-      );
+      let response = await adminAPI.contact.update(formdata);
       if (response.status === 200) {
         console.log(response.data);
         toast({
@@ -87,7 +83,7 @@ export default function UpdateContact() {
   }
 
   return (
-    <>
+    <WithAdminAuth>
       <Navbar />
       <Form {...form}>
         <form
@@ -147,6 +143,6 @@ export default function UpdateContact() {
           </div>
         </form>
       </Form>
-    </>
+    </WithAdminAuth>
   );
 }

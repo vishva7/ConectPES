@@ -17,8 +17,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import axios from "axios";
 import Navbar from "@/components/navbar";
+import { adminAPI } from "@/lib/adminAPI";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
@@ -49,10 +49,7 @@ export default function CreateProject() {
         position: Number(formdata.position),
       };
       console.log(updatedData);
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/create`,
-        updatedData
-      );
+      let response = await adminAPI.projects.create(updatedData);
       if (response.status === 201) {
         console.log(response.data);
         toast({
